@@ -25,7 +25,16 @@ const RutinePage = (props: any) => {
       <ul className='flex flex-col gap-4'>
         {rutine?.exercises.map((exercise: any) => (
           <Link key={exercise.id} href={`/exercises/${exercise.id}`}>
-            <li className='flex rounded-xl border border-gray-800 px-4 py-4 text-lg'>{exercise.name}</li>
+            <li className='flex rounded-xl shadow px-2 py-2 text-lg bg-white gap-4'>
+              <div className='h-[100%] bg-secondary aspect-square rounded-2xl w-16'>
+              </div>
+              <div>
+                <p className='font-semibold'>
+                  {exercise.name}
+                </p>
+                <p className='inline text-gray-light'>Peso Levantado:</p><p className='inline pl-2 text-gray-light'>40</p>
+              </div>
+            </li>
           </Link>
         ))}
       </ul>

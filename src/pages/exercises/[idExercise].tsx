@@ -52,53 +52,64 @@ const ExercisePage = () => {
     <div className='px-8 py-6 flex flex-col '>
       <Title >{exercise?.name}</Title>
       <div className='w-full'>
-        <div className='flex justify-between px-1'>
-          <p>Sesión</p>
-          <p>Kilogramos</p>
-          <p>Repeticiones</p>
+        <div className='bg-white p-2 flex justify-between rounded-xl'>
+          <div className='bg-secondary w-1/2 rounded-xl py-1'>
+            <p className='text-primary-text text-center font-medium '>Historial</p>
+          </div>
+          <div className='w-1/2 rounded-xl py-1'>
+            <p className='text-center font-medium text-gray-light'>Estadisticas</p>
+          </div>
         </div>
-        {
-          loading ? <p>Loading</p> : sessionsByDate.map((item, i) => {
-            return <div key={i}>
-              <ul className='bg-white shadow-xl rounded-xl p-4 flex flex-col gap-4'>
-                {
-                  item.sessions.map((session: any, i: number) =>
-                    <li key={i} className='flex justify-between'> <div className='bg-black rounded-full text-white font-bold aspect-square w-6 flex justify-center align-middle'>
-                      <p className='text-center'>
-                        {i + 1}
-                      </p>
-                    </div>
-                      <p>{session.repetitions}</p>
-                      <p>{session.weight}</p>
-                    </li>)
-                }
-              </ul>
-              <p className="text-center mt-3 font-semibold">{item.stringDate}</p>
-            </div>
-          })
-        }
+        <div className='flex justify-between px-1 mt-6 mb-4'>
+          <p className='font-semibold'>Sesión</p>
+          <p className='font-semibold'>Kilogramos</p>
+          <p className='font-semibold'>Repeticiones</p>
+        </div>
+        <div className='h-[50vh] overflow-scroll	'>
+          {
+            loading ? <p>Loading</p> : sessionsByDate.map((item, i) => {
+              return <div key={i}>
+                <ul className='bg-white shadow-xl rounded-xl p-4 flex flex-col gap-4 '>
+                  {
+                    item.sessions.map((session: any, i: number) =>
+                      <li key={i} className='flex justify-between'> <div className='bg-primary rounded-full text-white font-bold aspect-square w-6 flex justify-center align-middle'>
+                        <p className='text-center'>
+                          {i + 1}
+                        </p>
+                      </div>
+                        <p>{session.repetitions}</p>
+                        <p>{session.weight}</p>
+                      </li>)
+                  }
+                </ul>
+                <p className="text-center mt-3 font-semibold">{item.stringDate}</p>
+              </div>
+            })
+          }
+        </div>
+
       </div>
 
       <div className='absolute bottom-4 flex justify-between align-middle w-[90%]'>
-        <div className='flex flex-col shadow-md p-4 gap-2'>
+        <div className='flex flex-col shadow-md p-4 gap-2 bg-white'>
           <label htmlFor="kilogramos">Kilogramos</label>
           <input
             type="number"
-            className='p-2 bg-zinc-100 max-w-[100px] rounded-md'
+            className='p-2 bg-zinc-100 max-w-[100px]  bg-tertiary rounded-lg border-2 border-secondary'
             value={weight}
             onChange={(e) => setweight(parseInt(e.target.value))}
           />
         </div>
-        <div className='flex flex-col shadow-md p-4 gap-2'>
+        <div className='flex flex-col shadow-md p-4 gap-2 bg-white'>
           <label htmlFor="repetitions">Repetitions</label>
           <input
             type="number"
-            className='p-2 bg-zinc-100 max-w-[100px] rounded-md'
+            className='p-2 bg-zinc-100 max-w-[100px]  bg-tertiary rounded-lg border-2 border-secondary'
             value={repetitions}
             onChange={(e) => setrepetitions(parseInt(e.target.value))}
           />
         </div>
-        <button className='w-20 h-20 bg-black text-white font-bold self-center rounded-xl' onClick={handleAddSession}>+</button>
+        <button className='w-20 h-20 bg-primary text-white font-bold self-center rounded-xl' onClick={handleAddSession}>+</button>
       </div>
     </div>
   )
