@@ -1,4 +1,4 @@
-import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc, orderBy } from "firebase/firestore";
 import { db } from "./config";
 const USER_ID = 'pg04fNCoICxrRKjcfZuH';
 export const getExercise = async (id: string) => {
@@ -18,8 +18,10 @@ export const getExercise = async (id: string) => {
 }
 
 export const getSessionsFromExercise = async (id: string) => {
+
   const collRef = collection(db, "users", USER_ID, "exercises", id, "sessions")
-  const querySnapshot = await getDocs(collRef);
+  const q = query(collRef, orderBy("date", "asc"));
+  const querySnapshot = await getDocs(q);
   let sessions: any[] = [];
   if (querySnapshot.empty) return null
   querySnapshot.forEach((doc) => {
