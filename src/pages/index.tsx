@@ -1,28 +1,30 @@
-import Image from 'next/image'
-import { db } from '@/firebase/config'
-import { collection, query, where, getDocs, doc } from "firebase/firestore";
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { getRutines } from '@/firebase/rutine.service';
 import Title from '@/components/ui/Title';
-import { LineChart } from '@/components/charts/LineChart';
-import SubTitle from '@/components/ui/SubTitle';
+import ListRutines from '@/components/ListRutines';
 
 export default function Home() {
   const [rutines, setrutines] = useState<any[]>([]);
+  const [loading, setloading] = useState(false);
   useEffect(() => {
+    setloading(true)
     getRutines().then((rutines) => {
       setrutines(rutines);
+      setloading(false)
     });
   }, [])
-  console.log(rutines)
   return (
     <main>
-
       <section className='px-8 py-6'>
-        <Title >Hola, Yerodin</Title>
+        <Title loading={loading}>Hola, Yerodin</Title>
+        <Title loading={loading}>Rutinas</Title>
+        <ListRutines rutines={rutines} loading={loading} />
+      </section>
+    </main>
+  )
+}
 
-        <SubTitle>Indicadores</SubTitle>
+{/* <SubTitle>Indicadores</SubTitle>
         <div className=' flex flex-row gap-2 flex-wrap'>
           <div className='bg-white shadow max-w-[200px] p-4 flex gap-4 rounded-2xl'>
             <div className='rounded-full bg-secondary  w-12 h-12 flex  justify-center items-center '>
@@ -50,40 +52,5 @@ export default function Home() {
         <SubTitle>Progreso</SubTitle>
         <div className='bg-white py-4 rounded-xl'>
           <LineChart />
-        </div>
-        <div className='h-6' />
-        <Title>Rutinas</Title>
-        <div className='flex flex-col gap-4'>
-          {rutines.map((rutine, i) => (
-            <Link key={i} href={`rutines/${rutine.id}`}>
-              <div key={rutine.id} className='bg-white rounded-lg shadow-md p-4 flex justify-between gap-4'>
-                <div className='flex w-[84%] gap-4'>
-                  <div className='min-w-[35%] bg-tertiary rounded-2xl'>
-                    {/* <Image src="/images/exercise.png" alt="Profile picture" width="200" height="50" className='rounded-lg ' /> */}
-                  </div>
-                  <div>
-                    <h2 className='text-xl font-bold'>{rutine.name}</h2>
-                    <ul>
-                      {rutine.exercises.map((exercise: any) => (
-                        <li key={exercise.id}>{exercise.name}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-                <div className='flex flex-col justify-between w-1/6'>
-                  <div className='flex flex-col gap-2'>
-                    <p className='text-gray-light text-sm'>Peso levantado</p>
-                    <p className='text-xl text-black font-bold'>240</p>
-                  </div>
-                  <div className='bg-secondary rounded-xl px-2 py-1'>
-                    <p className='text-primary-text text-center text-sm'>Iniciar</p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-    </main>
-  )
-}
+        </div> */}
+{/* <div className='h-6' /> */ }

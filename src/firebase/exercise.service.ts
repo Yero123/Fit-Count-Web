@@ -6,12 +6,40 @@ export const getExercise = async (id: string) => {
   const docSnap = await getDoc(docRef);
   const sessions = await getSessionsFromExercise(id)
   if (docSnap.exists()) {
-    return {
+    let exercise = {
       id: docSnap.id,
       name: docSnap.data().name,
       idRutine: docSnap.data().idRutine,
       sessions: sessions
     }
+    if(!sessions) return null
+    let arrayByDate: { stringDate: string, sessions: any[] }[] = []
+    let labels1: any[] = [];
+    let data1: any[] = [];
+    exercise.sessions?.forEach((session: any, i: any) => {
+      labels1.push(i + 1)
+      let power = session.weight * session.repetitions
+      if (session.weight == 0) {
+        power = 0.5 * session.repetitions
+      }
+      data1.push(power)
+      let stringDate = new Date(session.date.seconds * 1000).toLocaleDateString('en-GB')
+      let actualDate = arrayByDate.find((item) => item.stringDate === stringDate)
+      if (actualDate) {
+        actualDate.sessions = [...actualDate.sessions, session]
+      } else {
+        arrayByDate.push({ sessions: [session], stringDate })
+      }
+    });
+    return {
+      exercise,
+      sessionsByDate: arrayByDate.reverse(),
+      data:{
+        labels: labels1,
+        data: data1
+      }
+    }
+
   }
   else
     return null
