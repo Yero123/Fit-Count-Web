@@ -42,7 +42,8 @@ const BackButton = () => {
       sethistoryStack(historyStack.splice(-1)); 
       const previousPath = historyStack[historyStack.length - 1];
       sethistoryStack(historyStack.splice(-1)); 
-      if (!previousPath) {
+      console.log(previousPath)
+      if (!previousPath || previousPath ==="/exercises/[idExercise]") {
         router.push('/');
       } else {
         router.push(previousPath); 

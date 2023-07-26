@@ -1,16 +1,13 @@
+import { useExerciseContext } from '@/contexts/DoExerciseContext'
 import React from 'react'
 
-const SwitchExerciseView = ({
-  view,
-  setview
-}:{
-  view:string,
-  setview:Function
-}) => {
+const SwitchExerciseView = () => {
   const styleButtonActive = "bg-secondary w-1/2 rounded-xl py-1"
   const styleButtonInactive = "w-1/2 rounded-xl py-1"
   const styleTextActive = "text-primary-text text-center font-medium "
   const styleTextInactive = "text-center font-medium text-gray-light"
+  const { view, setview } = useExerciseContext();
+  
   return (
     <div className='bg-white p-2 flex justify-between rounded-xl'>
       <button className={view === "historial" ? styleButtonActive : styleButtonInactive}

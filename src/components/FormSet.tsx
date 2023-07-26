@@ -1,11 +1,8 @@
+import { useExerciseContext } from "@/contexts/DoExerciseContext";
 import { useState } from "react";
 
-const FormSet = ({
-  loading,
-  handleAddSession,
-}: any) => {
-  const [repetitions, setrepetitions] = useState(0);
-  const [weight, setweight] = useState(0)
+const FormSet = () => {
+  const { loading ,weight,repetitions ,handleAddSession,handleChangeWeight, handleChangeRepetitions,inEditMode,handleEditSession} = useExerciseContext();
   if (loading) return <div className=' bg-white absolute bottom-4 flex justify-between align-middle w-[90%]'>
     <div className='flex flex-col shadow-md p-4 gap-2 bg-white'>
       <label htmlFor="kilogramos">Kilogramos</label>
@@ -33,7 +30,7 @@ const FormSet = ({
         type="number"
         className='p-2 bg-zinc-100 max-w-[100px]  bg-tertiary rounded-lg border-2 border-secondary'
         value={weight}
-        onChange={(e) => setweight(parseInt(e.target.value))}
+        onChange={handleChangeWeight}
       />
     </div>
     <div className='flex flex-col shadow-md p-4 gap-2 bg-white'>
@@ -42,10 +39,12 @@ const FormSet = ({
         type="number"
         className='p-2 bg-zinc-100 max-w-[100px]  bg-tertiary rounded-lg border-2 border-secondary'
         value={repetitions}
-        onChange={(e) => setrepetitions(parseInt(e.target.value))}
+        onChange={handleChangeRepetitions}
       />
     </div>
-    <button className='w-20 h-20 bg-primary text-white font-bold self-center rounded-xl' onClick={() => { handleAddSession(repetitions, weight) }}>+</button>
+    <button className='w-20 h-20 bg-primary text-white font-bold self-center rounded-xl' onClick={inEditMode?handleEditSession:handleAddSession}>{
+      inEditMode?"Editar":"+"
+    }</button>
   </div>
 }
 
