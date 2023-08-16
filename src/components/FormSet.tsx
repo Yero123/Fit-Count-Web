@@ -23,7 +23,7 @@ const FormSet = () => {
     <button className='w-20 h-20 bg-[#94b1f5] text-white font-bold self-center rounded-xl' >
     </button>
   </div>
-  return <div className='absolute bottom-4 flex justify-between align-middle w-[90%]'>
+  return <div className='absolute bottom-4 flex justify-between align-middle w-[90%] md:max-w-[400px] self-center self items-center'>
     <div className='flex flex-col shadow-md p-4 gap-2 bg-white'>
       <label htmlFor="kilogramos">Kilogramos</label>
       <input

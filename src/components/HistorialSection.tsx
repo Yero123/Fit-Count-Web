@@ -17,12 +17,12 @@ const HistorialSection = () => {
     </ul>
   </>
   return <>
-    <div className='flex justify-between px-1 mt-6 mb-4'>
+    <div className='flex justify-between px-1 mt-6 mb-4 '>
       <p className='font-semibold'>Sesión</p>
       <p className='font-semibold'>Kilogramos </p>
       <p className='font-semibold'>Repeticiones</p>
     </div>
-    <div className='h-[50vh] overflow-scroll	'>
+    <div className='h-[50vh] overflow-y-scroll	md:h-[60vh]'>
       {
         loading ? <p>Loading</p> : sessionsByDate.map((item: any, i: any) => {
           return <div key={i}>

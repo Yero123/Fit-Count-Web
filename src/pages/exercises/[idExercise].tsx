@@ -11,7 +11,7 @@ const ExercisePage = () => {
 
 
   return (
-    <div className='px-8 py-6 flex flex-col '>
+    <div className=' flex flex-col '>
       <DoExerciseProvider>
         <Contenedor />
       </DoExerciseProvider>
@@ -30,7 +30,7 @@ const Contenedor = ({ children }: any) => {
       <div className='w-full'>
         <SwitchExerciseView />
         {"historial" === view && <HistorialSection />}
-        {"estadisticas" === view && <div className='h-[50vh]	flex pt-6'>
+        {"estadisticas" === view && <div className='h-[50vh]	flex pt-6 md:h-[65vh]'>
 
           <LineChartExercise data={data2} />
         </div>}

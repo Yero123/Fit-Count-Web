@@ -17,13 +17,13 @@ const RutinePage = () => {
     });
   }, [router.isReady, router.query.id])
   return (
-    <div className='px-8 py-6'>
+    <main >
       <Title loading={loading} >{rutine?.name}</Title>
       <ListExercise
         loading={loading}
         rutine={rutine}
       />
-    </div>
+    </main>
   )
 }
 

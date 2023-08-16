@@ -11,6 +11,7 @@ const colors = {
     tertiary: "#F4F7FE",
     "primary-text": "#285DFF",
     white: "#FFFFFF",
+    
   },
 };
 module.exports = {
