@@ -1,4 +1,4 @@
-import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc, addDoc } from "firebase/firestore";
 import { db } from "./config";
 const USER_ID = 'pg04fNCoICxrRKjcfZuH';
 export const getRutines = async () => {
@@ -49,4 +49,11 @@ export const getExerciseFromRutine = async (id: string) => {
     })
   });
   return exercises
+}
+
+export const createRutine = async (rutine: any) => {
+  const docRef = collection(db, "users", USER_ID, "rutines");
+  return await addDoc(docRef, {
+    name: rutine
+  });
 }

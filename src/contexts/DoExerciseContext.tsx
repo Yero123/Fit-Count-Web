@@ -19,6 +19,7 @@ export default function DoExerciseProvider(props: any) {
     setloading(true)
     if (!router.isReady) return;
     getExercise(router.query.idExercise as string).then((response) => {
+      console.log(response)
       setexercise(response?.exercise);
       setdata(response?.data)
       setsessionsByDate(response?.sessionsByDate)
