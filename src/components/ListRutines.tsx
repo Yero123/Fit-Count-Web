@@ -17,7 +17,7 @@ const ListRutines = ({
   return (
     <div className='flex flex-col gap-4'>
       {rutines.map((rutine, i) => (
-        <RutineCard key={i} id={rutine.id} name={rutine.name} exercises={rutine.exercises} />
+        <RutineCard key={i} id={rutine.id} name={rutine.name} exercises={rutine.exercises} active={true} />
       ))}
     </div>
   )

@@ -18,7 +18,7 @@ const ListExercise = ({
   return (
     <ul className='flex flex-col gap-4'>
       {rutine?.exercises.map((exercise: any) => (
-        <ExerciseCard key={exercise.id} id={exercise.id} name={exercise.name} />
+        <ExerciseCard key={exercise.id} id={exercise.id} name={exercise.name}  active={exercise.active}/>
       ))}
     </ul>
   )

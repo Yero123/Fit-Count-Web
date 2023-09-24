@@ -1,5 +1,6 @@
 import { collection, query, where, getDocs, doc, getDoc, addDoc } from "firebase/firestore";
 import { db } from "./config";
+import { getLastSessionsOnWeek } from "./sessions.service";
 const USER_ID = 'pg04fNCoICxrRKjcfZuH';
 export const getRutines = async () => {
   const collRef = collection(db, "users", USER_ID, "rutines")
@@ -11,8 +12,17 @@ export const getRutines = async () => {
       name: doc.data().name,
     });
   });
+  const sessions = await getLastSessionsOnWeek();
+
   rutines = await Promise.all(rutines.map(async (rutine) => {
     let exercises = await getExerciseFromRutine(rutine.id);
+    exercises.forEach((exercise: any) => {
+      if (sessions.some((session: any) => session.idExercise == exercise.id)) {
+        exercise.active = true
+      } else {
+        exercise.active = false
+      }
+    })
     return {
       ...rutine,
       exercises
@@ -24,8 +34,16 @@ export const getRutines = async () => {
 export const getRutine = async (idRutine: string) => {
   const docRef = doc(db, "users", USER_ID, "rutines", idRutine);
   const docSnap = await getDoc(docRef);
+  const sessions = await getLastSessionsOnWeek();
   if (docSnap.exists()) {
     let exercises = await getExerciseFromRutine(idRutine);
+    exercises.forEach((exercise: any) => {
+      if (sessions.some((session: any) => session.idExercise == exercise.id)) {
+        exercise.active = true
+      } else {
+        exercise.active = false
+      }
+    })
     return {
       id: docSnap.id,
       name: docSnap.data().name,

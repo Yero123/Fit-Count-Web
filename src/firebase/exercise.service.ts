@@ -55,6 +55,8 @@ export const getSessionsFromExercise = async (id: string) => {
   const collRef = collection(db, "users", USER_ID, "sessions")
   //where exerciseId == id
   const q = query(collRef, where("idExercise", "==", id));
+  //order by date
+
   const querySnapshot = await getDocs(q);
   let sessions: any[] = [];
   if (querySnapshot.empty) return null
@@ -66,7 +68,9 @@ export const getSessionsFromExercise = async (id: string) => {
       id: doc.id,
     })
   });
-  return sessions
+  return sessions.sort((a, b) => {
+    return a.date.seconds - b.date.seconds
+  })
 }
 
 export const createExercise = async (exercise: any, idRutine: any) => {

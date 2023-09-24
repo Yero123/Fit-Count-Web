@@ -21,19 +21,24 @@ export const deleteSession = async (idExercise: string, idSession: string) => {
   return await deleteDoc(docRef)
 }
 export const getLastSessionsOnWeek = async () => {
-  // actual mondayDay at 00:00 
-  const mondayDay = new Date().getTime() - ((((new Date().getDay()) == 0 ? 8 : new Date().getDay()) - 1) * 86400000)
-  //ver 
-  const q = query(collection(db, "users", USER_ID, "sessions"), where("date", ">", new Date(mondayDay)))
-  const querySnapshot = await getDocs(q);
-  const sessions: any = [];
-  querySnapshot.forEach((doc) => {
-    sessions.push({ ...doc.data(), id: doc.id })
-  });
-  //dias de la semana
+    // week progres
+    const mondayDay = new Date().getTime() - ((((new Date().getDay()) == 0 ? 8 : new Date().getDay()) - 1) * 86400000)
+    //ver 
+    const q = query(collection(db, "users", USER_ID, "sessions"), where("date", ">", new Date(mondayDay)))
+    const querySnapshot2 = await getDocs(q);
+    const sessions: any = [];
+    querySnapshot2.forEach((doc) => {
+      sessions.push({ ...doc.data(), id: doc.id })
+    });
+    return sessions;
+
+}
+
+export const getDaysWorkedByWeek = async () => {
+
   const days = ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  //sessions by day
   const sessionsByDay: any = [];
+  const sessions=await getLastSessionsOnWeek();
   days.forEach((day) => {
     const sessionsByDayAux = sessions.some((session: any) => {
       //timestamp to date

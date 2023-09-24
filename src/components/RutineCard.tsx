@@ -8,8 +8,10 @@ const RutineCard = ({
 }: {
   id: string,
   name: string,
-  exercises: any
+  exercises: any,
+  active: boolean
 }) => {
+
   return (
     <Link key={id} href={`rutines/${id}`}>
       <div key={id} className='bg-white rounded-lg shadow-md p-4 flex justify-between gap-4'>
@@ -17,11 +19,15 @@ const RutineCard = ({
           {/* <div className='min-w-[35%] bg-tertiary rounded-2xl'>
           </div> */}
           <div>
-            <h2 className='text-xl font-bold'>{name}</h2>
+            <h2 className={"text-xl font-bold"}>{name}</h2>
             <ul>
-              {exercises.map((exercise: any) => (
-                <li key={exercise.id}>{exercise.name}</li>
-              ))}
+              {exercises.map((exercise: any) => {
+                let style = " ";
+                if (exercise.active) {
+                  style = " text-primary-text"
+                }
+                return <li key={exercise.id} className={style}>{exercise.name}</li>
+              })}
             </ul>
           </div>
         </div>

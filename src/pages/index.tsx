@@ -4,7 +4,7 @@ import Title from '@/components/ui/Title';
 import ListRutines from '@/components/ListRutines';
 import FloatingAddButton from '@/components/FloatingAddButton';
 import Modal from '@/components/ui/Modal';
-import { getLastSessionsOnWeek, passSessions } from '@/firebase/sessions.service';
+import { getDaysWorkedByWeek, passSessions } from '@/firebase/sessions.service';
 
 export default function Home() {
   const [rutines, setrutines] = useState<any[]>([]);
@@ -18,7 +18,7 @@ export default function Home() {
       setrutines(rutines);
       setloading(false)
     });
-    getLastSessionsOnWeek().then((e) => {
+    getDaysWorkedByWeek().then((e) => {
       setreportWeek(e)
     });
   }, [re])
