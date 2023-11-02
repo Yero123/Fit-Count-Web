@@ -5,27 +5,16 @@ import ListRutines from '@/components/ListRutines';
 import FloatingAddButton from '@/components/FloatingAddButton';
 import Modal from '@/components/ui/Modal';
 import { getDaysWorkedByWeek, passSessions } from '@/firebase/sessions.service';
+import { useAllRutinesContext } from '@/contexts/AllRutinesContext';
+import Link from 'next/link';
 
 export default function Home() {
-  const [rutines, setrutines] = useState<any[]>([]);
-  const [loading, setloading] = useState(false);
-  const [reportWeek, setreportWeek] = useState([false, false, false, false, false, false, false]);
-  const [re, setre] = useState(false);
-  const reset = () => { setre(!re) }
-  useEffect(() => {
-    setloading(true)
-    getRutines().then((rutines) => {
-      setrutines(rutines);
-      setloading(false)
-    });
-    getDaysWorkedByWeek().then((e) => {
-      setreportWeek(e)
-    });
-  }, [re])
-  console.log("reportWeek",reportWeek)
+
+
   const [visible, setisVisible] = useState(false)
   const openModal = () => { setisVisible(true) }
   const closeModal = () => { setisVisible(false) }
+  const { loading, reportWeek, rutines, setloading, reset } = useAllRutinesContext();
   return (
     <main>
       <Title loading={loading}>Semana</Title>
@@ -33,7 +22,7 @@ export default function Home() {
         <Statistic />
         <Statistic />
       </div>
-      <div className='flex bg-white rounded-lg flex-col shadow px-3 pb-6 pt-1 relative md:px-8 md:py-6 md:mb-6 '>
+      <div className='flex bg-white rounded-lg flex-col shadow px-3 pb-6 pt-1 relative md:px-8 md:py-6 md:mb-6 z-0'>
         <div className='flex justify-between '>
           <DayWorkout day="Lun" active={reportWeek[1]} />
           <DayWorkout day="Mar" active={reportWeek[2]} />
@@ -55,6 +44,11 @@ export default function Home() {
       >
         <FormCreateRutine setloading={setloading} closeModal={closeModal} reset={reset} />
       </Modal>
+      <Link href={'/choseExercise'} >
+        <button className='bg-primary p-2 text-white rounded-xl px-6 mt-4 ' >
+          Escoger Ejercicios
+        </button>
+      </Link>
 
     </main>
   )

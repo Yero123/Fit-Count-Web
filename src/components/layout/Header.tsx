@@ -2,11 +2,30 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link';
+import Modal from '../ui/Modal';
+import { useAllRutinesContext } from '@/contexts/AllRutinesContext';
+import ListRutines from '../ListRutines';
+
+
 
 const Header = () => {
   const router = useRouter();
+  const [visible, setisVisible] = useState(false);
+  const openModal = () => { setisVisible(true) }
+  const closeModal = () => { setisVisible(false) }
+  // const { loading, reportWeek, rutines, setloading, reset } = useAllRutinesContext();
+
   return (
     <header className='flex justify-between pt-8 pb-2 md:max-w-[1000px] md:m-auto md:bg-white md:rounded-xl md:my-6 md:pt-2 md:px-6 '>
+      <Modal
+        visible={visible}
+        openModal={openModal}
+        closeModal={closeModal}
+      >
+
+        <BodyModal closeModal={closeModal}/>
+
+      </Modal>
       <div className='flex justify-center items-center'>
         {
           router.asPath === '/' ?
@@ -20,9 +39,7 @@ const Header = () => {
       </div>
 
       <div className='flex justify-center items-center'>
-        <Link href="/">
-          <Image src="/images/yero.png" alt="Profile picture" width="35" height="35" className='rounded-full pt-1' />
-        </Link>
+        <Image onClick={openModal} src="/images/yero.png" alt="Profile picture" width="35" height="35" className='rounded-full pt-1' />
       </div>
     </header>
   )
@@ -30,33 +47,11 @@ const Header = () => {
 
 const BackButton = () => {
   const router = useRouter();
-  const [historyStack, sethistoryStack] = useState<any[]>([])
-
-  useEffect(() => {
-    sethistoryStack([
-      ...historyStack,
-      router.asPath
-    ])
-
-    if (historyStack.length > 5) {
-      sethistoryStack(historyStack);
-    }
-  }, [router.asPath, historyStack]);
 
   const handleBackButtonClick = () => {
-    if (historyStack.length > 0) {
-      sethistoryStack(historyStack.splice(-1));
-      const previousPath = historyStack[historyStack.length - 1];
-      sethistoryStack(historyStack.splice(-1));
-      console.log(previousPath)
-      if (!previousPath || previousPath === "/exercises/[idExercise]") {
-        router.push('/');
-      } else {
-        router.push(previousPath);
-      }
-    } else {
-      router.push('/');
-    }
+
+    router.push('/');
+
   };
 
   return (
@@ -67,4 +62,14 @@ const BackButton = () => {
     </button>
   );
 };
+
+const BodyModal = ({closeModal}:any) => {
+  const { loading, rutines } = useAllRutinesContext();
+
+  return <>
+    <div className='overflow-y-scroll h-[80vh]'>
+      <ListRutines rutines={rutines} loading={loading} closeModal={closeModal} />
+    </div>
+  </>
+}
 export default Header
