@@ -39,10 +39,10 @@ export default function AllRutinesProvider(props: any) {
     localStorage.setItem('customRutine', JSON.stringify(customRutine))
   }
   const checkExercise = (exercise: any) => {
-    if(customRutine.exercises.find((e:any)=>e.id===exercise.id)){
+    if (customRutine.exercises.find((e: any) => e.id === exercise.id)) {
       setcustomRutine({
         ...customRutine,
-        exercises: customRutine.exercises.filter((e:any)=>e.id!==exercise.id)
+        exercises: customRutine.exercises.filter((e: any) => e.id !== exercise.id)
       })
       return
     }

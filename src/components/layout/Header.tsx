@@ -16,7 +16,7 @@ const Header = () => {
   // const { loading, reportWeek, rutines, setloading, reset } = useAllRutinesContext();
 
   return (
-    <header className='flex justify-between pt-8 pb-2 md:max-w-[1000px] md:m-auto md:bg-white md:rounded-xl md:my-6 md:pt-2 md:px-6 '>
+    <header className='flex justify-between pt-8 pb-2 md:hidden md:max-w-[1000px] md:m-auto md:bg-white md:rounded-xl md:my-6 md:pt-2 md:px-6 '>
       <Modal
         visible={visible}
         openModal={openModal}
