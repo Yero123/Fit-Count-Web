@@ -2,7 +2,7 @@ import { useExerciseContext } from "@/contexts/DoExerciseContext";
 import { useState } from "react"
 
 const HistorialSection = () => {
-  const { loading, sessionsByDate,sessionEditID} = useExerciseContext();
+  const { loading, sessionsByDate, sessionEditID } = useExerciseContext();
   if (loading) return <>
     <div className='flex justify-between px-1 mt-6 mb-4'>
       <p className='font-semibold'>Sesión</p>
@@ -18,15 +18,15 @@ const HistorialSection = () => {
   </>
   return <>
     <div className='flex justify-between px-1 mt-6 mb-4 '>
-      <p className='font-semibold'>Sesión</p>
-      <p className='font-semibold'>Kilogramos </p>
-      <p className='font-semibold'>Repeticiones</p>
+      <p className='font-semibold dark:text-white'>Sesión</p>
+      <p className='font-semibold dark:text-white'>Kilogramos </p>
+      <p className='font-semibold dark:text-white'>Repeticiones</p>
     </div>
     <div className='h-[50vh] overflow-y-scroll	md:h-[60vh]'>
       {
         loading ? <p>Loading</p> : sessionsByDate.map((item: any, i: any) => {
           return <div key={i}>
-            <ul className='bg-white shadow-xl rounded-xl p-4 flex flex-col gap-4 '>
+            <ul className='bg-white shadow-xl rounded-xl p-4 flex flex-col gap-4  dark:bg-[#02081B] dark:border-slate-600 dark:border-[1px] '>
               {
                 item.sessions.map((session: any, i: number) =>
                   <SessionLi
@@ -35,12 +35,12 @@ const HistorialSection = () => {
                     i={i}
                     weight={session.weight}
                     repetitions={session.repetitions}
-                    editMode={session.id===sessionEditID}
+                    editMode={session.id === sessionEditID}
                   />
                 )
               }
             </ul>
-            <p className="text-center mt-3 font-semibold">{item.stringDate}</p>
+            <p className="text-center mt-3 font-semibold dark:text-white pb-4">{item.stringDate}</p>
           </div>
         })
       }
@@ -52,7 +52,7 @@ export default HistorialSection
 
 const SessionLi = ({ i, weight, repetitions, editMode, id }: any) => {
   const { sessionEditID,
-    setsessionEditID,setinEditMode,setrepetitions,setweight, handleDeleteSession} = useExerciseContext();
+    setsessionEditID, setinEditMode, setrepetitions, setweight, handleDeleteSession } = useExerciseContext();
   return <li key={i} className='flex justify-between'>
     {
       !editMode ? <>
@@ -62,16 +62,16 @@ const SessionLi = ({ i, weight, repetitions, editMode, id }: any) => {
           setweight(weight);
           setrepetitions(repetitions);
           // setEditSession(weight, repetitions) 
-        }} className={'bg-primary rounded-full text-white font-bold aspect-square w-6 flex justify-center align-middle '}>
+        }} className={'bg-primary rounded-full text-white font-bold aspect-square w-6 flex justify-center align-middle dark:text-black'}>
           <p className='text-center'>
             {i + 1}
           </p>
         </div>
-        <p>{weight}</p>
-        <p>{repetitions}</p>
+        <p className="dark:text-white">{weight}</p>
+        <p className="dark:text-white">{repetitions}</p>
       </> : <>
         <div className="flex gap-2">
-          <div onClick={() => { setinEditMode(false),setsessionEditID("") }} className={'animate-pulse bg-primary rounded-full text-white font-bold aspect-square w-6 flex justify-center align-middle'}>
+          <div onClick={() => { setinEditMode(false), setsessionEditID("") }} className={'animate-pulse bg-primary rounded-full text-white font-bold aspect-square w-6 flex justify-center align-middle '}>
             <p className='text-center'>
               {i + 1}
             </p>

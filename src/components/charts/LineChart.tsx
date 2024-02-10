@@ -40,11 +40,11 @@ export const options = {
 
     },
   },
-//   scales: {
-//     y: {
-//         display:false
-//     }
-// }
+  //   scales: {
+  //     y: {
+  //         display:false
+  //     }
+  // }
 };
 
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
@@ -55,7 +55,7 @@ export const data = {
     {
       label: 'Dataset 1',
       data: [10, 20, 30, 70, 50, 20, 70],
-      borderColor: '#422AFB',
+      borderColor: '#C5F541',
       backgroundColor: '#0e026d',
     },
   ],

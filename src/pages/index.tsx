@@ -14,6 +14,13 @@ import CheckIcon from '@/components/icons/CheckIcon';
 import Xicon from '@/components/icons/Xicon';
 import LineIcon from '@/components/icons/LineIcon';
 
+import { Card, Text, Metric, Button } from "@tremor/react";
+import { useThemeContext } from '@/contexts/ThemeProvider';
+import { BarChartExample3 } from '@/components/charts/BarChart';
+import SunIcon from '@/components/icons/SunIcon';
+import MoonIcon from '@/components/icons/MoonIcon';
+import ButtonTheme from '@/components/ButtonTheme';
+
 export default function Home() {
 
 
@@ -21,6 +28,51 @@ export default function Home() {
   const openModal = () => { setisVisible(true) }
   const closeModal = () => { setisVisible(false) }
   const { loading, reportWeek, rutines, setloading, reset } = useAllRutinesContext();
+  const { theme,
+    toggleTheme, } = useThemeContext()
+  return (
+
+    <main>
+      <Title loading={loading}>Rutinas</Title>
+      <div className='xl:flex-nowrap flex gap-8 flex-wrap'>
+        <RutineTable />
+        <div className='flex bg-white rounded-lg flex-col shadow px-3 pb-6 md:pt-1 mb-8  relative md:px-8 md:py-6 md:mb-6 z-0 flex-1 w-full dark:bg-[#02081B] dark:border-slate-600 dark:border-[1px]'>
+          <div className='flex justify-between '>
+            <DayWorkout day="Lun" active={reportWeek[1]} />
+            <DayWorkout day="Mar" active={reportWeek[2]} />
+            <DayWorkout day="Mie" active={reportWeek[3]} />
+            <DayWorkout day="Jue" active={reportWeek[4]} />
+            <DayWorkout day="Vie" active={reportWeek[5]} />
+            <DayWorkout day="Sab" active={reportWeek[6]} />
+            <DayWorkout day="Dom" active={reportWeek[0]} />
+          </div>
+          <div className='bg-gray-light h-[3px] w-[94%] absolute top-7 md:top-[3.6rem] rounded-full'></div>
+        </div>
+      </div>
+      <div className=' flex-wrap flex lg:flex-nowrap gap-8 min-h-[40vh]'>
+        <BarChartExample3 />
+        <ExerciceTable />
+      </div>
+
+
+      {/* <Title loading={loading}>Semana</Title>
+          <Title loading={loading}>Rutinas</Title>
+          <ListRutines rutines={rutines} loading={loading} />
+          <FloatingAddButton openModal={openModal} />
+          <Modal
+            visible={visible}
+            openModal={openModal}
+            closeModal={closeModal}
+          >
+            <FormCreateRutine setloading={setloading} closeModal={closeModal} reset={reset} />
+          </Modal>
+          <Link href={'/choseExercise'} >
+            <button className='bg-primary p-2 text-white rounded-xl px-6 mt-4 ' >
+              Escoger Ejercicios
+            </button>
+          </Link> */}
+    </main>
+  )
   return (
 
     <main>
@@ -40,6 +92,10 @@ export default function Home() {
           <div className='bg-gray-light h-[3px] w-[94%] absolute top-7 md:top-[3.6rem] rounded-full'></div>
         </div>
       </div>
+      <Card className="max-w-xs mx-auto">
+        <Text>Sales</Text>
+        <Metric>$ 34,743</Metric>
+      </Card>
       <Title loading={loading}>Semana</Title>
       <Title loading={loading}>Rutinas</Title>
       <ListRutines rutines={rutines} loading={loading} />
@@ -61,83 +117,225 @@ export default function Home() {
 }
 
 const RutineTable = () => {
+  const data = [
+    {
+      name: 'Empuje',
+      status: 'Completado',
+      lastModification: '19 feb 2024',
+      progress: 75
+    },
+    {
+      name: 'Jale',
+      status: 'No iniciado',
+      lastModification: '19 feb 2024',
+      progress: 0
+    },
+    {
+      name: 'Pierna',
+      status: 'En progreso',
+      lastModification: '19 feb 2024',
+      progress: 50
+    },
+    {
+      name: 'Empuje',
+      status: 'Completado',
+      lastModification: '19 feb 2024',
+      progress: 75
+    },
+    {
+      name: 'Pierna',
+      status: 'En progreso',
+      lastModification: '19 feb 2024',
+      progress: 50
+    },
+    {
+      name: 'Empuje',
+      status: 'Completado',
+      lastModification: '19 feb 2024',
+      progress: 75
+    }
 
-  return <div className="mb-6 shadow-md rounded-2xl">
-    <div className="overflow-x-auto rounded-2xl">
-      <table className={`w-full overflow-x-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 }`}>
+  ];
+  const columns = [
+    {
+      Header: 'Nombre',
+      accessor: 'name' // accessor is the "key" in the data
+    },
+    {
+      Header: 'Estado',
+      accessor: 'status'
+    },
+    {
+      Header: 'Ultima modificacion',
+      accessor: 'lastModification'
+    },
+    {
+      Header: 'Progreso',
+      accessor: 'progress'
+    }
+  ]
+  return <div className="mb-6 shadow-md rounded-2xl max-h-[40vh]  w-full ">
+    <div className="overflow-x-auto rounded-2xl  max-h-[40vh]  w-full   shadow-tremor-card  dark:border-slate-600 dark:border-[1px]">
+      <table className={`w-full overflow-x-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400  lg:w-full`}>
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="px-6 py-3 text-[#A3AED0] font-medium">
-              Nombre
-            </th>
-            <th scope="col" className="px-6 py-3 text-[#A3AED0] font-medium">
-              Estado
-            </th>
-            <th scope="col" className="px-6 py-3 text-[#A3AED0] font-medium">
-              Ultima modificacion
-            </th>
-            <th scope="col" className="px-6 py-3 text-[#A3AED0] font-medium">
-              Progreso
-            </th>
+            {
+              columns.map((column, i) => (
+                <th key={i} scope="col" className="px-6 py-3 text-[#A3AED0] font-medium">
+                  {column.Header}
+                </th>
+              ))
+            }
+
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-white ">
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-              Empuje
-            </th>
-            <td className="px-6 py-4 font-bold text-[#2B3674]">
-              <div className='flex gap-2'>
-                <CheckIcon className='h-5 w-5 text-[#05CD99]' /> Completado
-              </div>
-            </td>
-            <td className="px-6 py-4 font-bold text-[#2B3674]">
-              19 feb 2024
-            </td>
-            <td className="px-6 py-4 font-bold text-[#2B3674]">
-              <div className="w-full">
-                <ProgressBar total={100} value={75} />
-              </div>
-            </td>
-          </tr>
-          <tr className="bg-white ">
-            <th scope="row" className="px-6 py-4 font-bold text-[#2B3674]  text-gray-900 whitespace-nowrap">
-              Jale
-            </th>
-            <td className="px-6 py-4 font-bold text-[#2B3674]">
-              <div className='flex gap-2'>
+          {data.map((row, i) => (
+            <tr key={i} className="bg-white dark:bg-[#02081B]">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-[#2B3674] dark:text-white">
+                {row.name}
+              </th>
+              <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
+                <div className='flex gap-2'>
+                  <StatusIcon status={row.status} />
+                  {/* <CheckIcon className='h-5 w-5 text-[#05CD99]' />  */}
 
-                <Xicon className='h-5 w-5 text-[#EE5D50]' /> No iniciado
-              </div>
-            </td>
-            <td className="px-6 py-4 font-bold text-[#2B3674]">
-              19 feb 2024
-            </td>
-            <td className="px-6 py-4 font-bold text-[#2B3674]">
-              Completo
-            </td>
-          </tr>
-          <tr className="bg-white dark:bg-gray-800">
-            <th scope="row" className="px-6 py-4 font-bold text-[#2B3674]  text-gray-900 whitespace-nowrap">
-              Pierna
-            </th>
-            <td className="px-6 py-4 font-bold text-[#2B3674]">
-              <div className='flex gap-2'>
-
-                <LineIcon className='h-5 w-5 text-[#FFCE20]' /> En progreso
-              </div>
-            </td>
-            <td className="px-6 py-4 font-bold text-[#2B3674]">
-              19 feb 2024
-            </td>
-            <td className="px-6 py-4 font-bold text-[#2B3674]">
-              $11 feb 2024
-            </td>
-          </tr>
+                  {row.status}
+                </div>
+              </td>
+              <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
+                {row.lastModification}
+              </td>
+              <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
+                <div className="w-full">
+                  <ProgressBar total={100} value={row.progress} />
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
   </div>
+
+
+}
+
+const StatusIcon = ({ status }: any) => {
+  switch (status) {
+    case 'Completado':
+      return <CheckIcon className='h-5 w-5 text-[#05CD99]' />
+    case 'No iniciado':
+      return <Xicon className='h-5 w-5 text-[#EE5D50]' />
+    case 'En progreso':
+      return <LineIcon className='h-5 w-5 text-[#FFCE20]' />
+  }
+
+}
+
+const ExerciceTable = () => {
+
+  const data = [
+    {
+      name: 'Curl de bicep',
+      status: 152,
+      lastModification: +13,
+      progress: 75
+    },
+    {
+      name: 'Pres militar',
+      status: 152,
+      lastModification: -10,
+      progress: 0
+    },
+    {
+      name: 'Pierna',
+      status: 152,
+      lastModification: 4,
+      progress: 50
+    },
+    {
+      name: 'Curl de bicep',
+      status: 152,
+      lastModification: +13,
+      progress: 75
+    },
+    {
+      name: 'Pres militar',
+      status: 152,
+      lastModification: -10,
+      progress: 0
+    },
+    {
+      name: 'Pierna',
+      status: 152,
+      lastModification: 4,
+      progress: 50
+    },
+  ];
+  const columns = [
+    {
+      Header: 'No',
+      accessor: 'progress'
+    },
+    {
+      Header: 'Nombre',
+      accessor: 'name' // accessor is the "key" in the data
+    },
+    {
+      Header: 'RepxKg',
+      accessor: 'status'
+    },
+    {
+      Header: 'Modification',
+      accessor: 'lastModification'
+    }
+
+  ]
+  return <div className="mb-6 shadow-md rounded-2xl w-full ">
+    <div className="overflow-x-auto rounded-2xl shadow-tremor-card  max-h-[40vh] dark:border-slate-600 dark:border-[1px] w-full">
+      <table className={`w-full overflow-x-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 `}>
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            {
+              columns.map((column, i) => (
+                <th key={i} scope="col" className="px-6 py-3 text-[#A3AED0] font-medium">
+                  {column.Header}
+                </th>
+              ))
+            }
+
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, i) => (
+            <tr key={i} className="bg-white dark:bg-[#02081B]">
+              <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
+                <p>{i + 1}</p>
+              </td>
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-[#2B3674] dark:text-white">
+                {row.name}
+              </th>
+              <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
+                <div className='flex gap-2'>
+                  <StatusIcon status={row.status} />
+                  {/* <CheckIcon className='h-5 w-5 text-[#05CD99]' />  */}
+
+                  {row.status}
+                </div>
+              </td>
+              <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
+
+                {row.lastModification > 0 ? <span className='text-[#05CD99]'>+{row.lastModification}</span> : <span className='text-[#EE5D50]'>{row.lastModification}</span>}
+              </td>
+
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 
 }
 
@@ -153,7 +351,7 @@ const ProgressBar = ({ total, value }: any) => {
 };
 const DayWorkout = ({ day, active }: any) => {
   return <div className='flex flex-col justify-center'>
-    <span className="text-gray-light text-xs md:text-base font-semibold text-center">{day}</span>
+    <span className="text-gray-light text-xs md:text-base font-semibold text-center dark:text-white">{day}</span>
     {active ? <div className='bg-primary w-8 h-8 rounded-full flex justify-center items-center mt-5 md:w-12 md:h-12 md:mt-8' >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="5" stroke="currentColor" className="w-3 h-3 text-white md:w-5 md:h-5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
