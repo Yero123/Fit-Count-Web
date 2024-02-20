@@ -1,7 +1,8 @@
-import { getRutines } from "@/firebase/rutine.service";
+import { getRutines, getRutinesExercisesSessions } from "@/firebase/rutine.service";
 import { getDaysWorkedByWeek, getSessionsByRange } from "@/firebase/sessions.service";
 import { Rutine, Session } from "@/models";
 import Rutines from "@/pages/rutines";
+import { getCurrentMondayDate, getRangeWeek } from "@/utils/functions";
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState, } from "react";
 
@@ -11,6 +12,13 @@ export default function AllRutinesProvider(props: any) {
   const [loading, setloading] = useState(false);
   const [reportWeek, setreportWeek] = useState([false, false, false, false, false, false, false]);
   const [re, setre] = useState(false);
+  const [rutinesAll, setrutinesAll] = useState<Rutine[]>([]);
+  useEffect(() => {
+    getRutinesExercisesSessions().then((rutines) => {
+      setrutinesAll(rutines)
+    })
+  }, [])  
+    console.log("rutinesAll", rutinesAll)
   const reset = () => { setre(!re) }
   console.log(rutines)
   const [lastsSessions, setlastsSessions] = useState<Session[]>([]);
@@ -28,6 +36,81 @@ export default function AllRutinesProvider(props: any) {
 
 
   }, [re])
+  const getDataFormRutineTable =  ():{
+    name: string;
+    link: string;
+    status: string;
+    lastModification: string;
+    progress: number;
+}[] => {
+    return rutinesAll.map((rutine) => {
+      let status = "No iniciado"
+      let lastModification = "No encontrado"
+      let progress = 0
+      let maxSessions=16;
+      let totalSessions=0;
+  
+      const currentDate = getCurrentMondayDate();
+      rutine.exercises.forEach((exercise) => {
+        if (exercise.sessions) {
+          exercise.sessions.forEach((session) => {
+            if (session.date.seconds > currentDate.getTime() / 1000) {
+              status = "En progreso"
+              totalSessions++
+              
+            }
+            if(session.date.seconds>lastModification || lastModification=="No encontrado"){
+              lastModification = new Date(session.date.seconds*1000).toLocaleDateString('en-GB')
+            }
+          })
+        }
+      })
+      progress = (totalSessions/maxSessions)*100
+      return {
+        name: rutine.name,
+        link: `/rutines/${rutine.id}`,
+        status: status,
+        lastModification: lastModification,
+        progress: progress
+      }
+    })
+  }
+  const getDataFromExerciseTable = ()=>{
+    let data:any[] = []
+    rutinesAll.forEach((rutine) => {
+      rutine.exercises.forEach((exercise) => {
+        let status = "No iniciado"
+        let lastModification = "No encontrado"
+        let lastModification2 = "No encontrado"
+        let progress = 0
+        let maxSessions=16;
+        let totalSessions=0;
+        
+        if (exercise.sessions) {
+          exercise.sessions.forEach((session) => {
+            // const [start, end] = getRangeWeek(new Date(session.date.seconds*1000))
+ 
+            // const sessionDay = sessionDate.getDay();
+            // if (session.date.seconds > currentDate.getTime() / 1000) {
+            //   status = "En progreso"
+            //   totalSessions++
+            // }
+            // if(session.date.seconds>lastModification || lastModification=="No encontrado"){
+            //   lastModification = new Date(session.date.seconds*1000).toLocaleDateString('en-GB')
+            // }
+          })
+        }
+        progress = (totalSessions/maxSessions)*100
+        data.push({
+          name: exercise.name,
+          link: `/exercises/${exercise.id}`,
+          record1: 132,
+          record2: 152,
+          })
+      })
+    })
+    return data
+  }
   useEffect(() => {
     if (rutines.length > 0) {
       let fechaActual = new Date();
@@ -103,7 +186,8 @@ export default function AllRutinesProvider(props: any) {
     reset,
     customRutine,
     saveCustomRutineLocalStorage,
-    checkExercise
+    checkExercise,getDataFormRutineTable,
+    getDataFromExerciseTable
   }
   return (
     <AllRutinesContext.Provider value={value}>
@@ -120,3 +204,4 @@ export const useAllRutinesContext = () => {
   }
   return context
 }
+

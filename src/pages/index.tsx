@@ -37,8 +37,8 @@ export default function Home() {
       <Title loading={loading}>Rutinas</Title>
       <div className='xl:flex-nowrap flex gap-8 flex-wrap'>
         <RutineTable />
-        <div className='flex bg-white rounded-lg flex-col shadow px-3 pb-6 md:pt-1 mb-8  relative md:px-8 md:py-6 md:mb-6 z-0 flex-1 w-full dark:bg-[#02081B] dark:border-slate-600 dark:border-[1px]'>
-          <div className='flex justify-between '>
+        <div className='flex bg-white rounded-lg flex-col shadow px-3 pb-6 md:pt-1 mb-8   relative md:px-8 md:py-6 md:pt-6 md:mb-6 z-0 flex-1 w-full dark:bg-[#02081B] dark:border-slate-600 dark:border-[1px]'>
+          <div className='flex justify-between mt-4 gap-3'>
             <DayWorkout day="Lun" active={reportWeek[1]} />
             <DayWorkout day="Mar" active={reportWeek[2]} />
             <DayWorkout day="Mie" active={reportWeek[3]} />
@@ -47,7 +47,7 @@ export default function Home() {
             <DayWorkout day="Sab" active={reportWeek[6]} />
             <DayWorkout day="Dom" active={reportWeek[0]} />
           </div>
-          <div className='bg-gray-light h-[3px] w-[94%] absolute top-7 md:top-[3.6rem] rounded-full'></div>
+          <div className='bg-gray-light h-[3px] w-[88%] absolute top-7 md:top-[4.5rem] rounded-full'></div>
         </div>
       </div>
       <div className=' flex-wrap flex lg:flex-nowrap gap-8 min-h-[40vh]'>
@@ -119,51 +119,8 @@ export default function Home() {
 
 const RutineTable = () => {
 
-  const { loading, reportWeek, rutines, setloading, reset } = useAllRutinesContext();
-  const data = rutines.map((rutine: Rutine) => {
-    let status = "No iniciado"
-    let lastModification = "No encontrado"
-    let progress = 0
-    let sessions: Session[] = [];
-    if (rutine.exercises.length > 0) {
-      rutine.exercises.forEach((exercise) => {
-        if (exercise.sessions?.length > 0) {
-          sessions.push(...exercise.sessions)
-        }
-      })
-    }
-    sessions = sessions.sort((a, b) => {
-      return a.date.seconds - b.date.seconds
-    })
-    sessions = sessions.filter((session) => {
-      //this week 
-      const currentDate = new Date();
-      currentDate.setHours(0);
-      currentDate.setMinutes(0);
-      currentDate.setSeconds(0);
-      currentDate.setMilliseconds(0);
-      const mondayDay = currentDate.getTime() - ((((new Date().getDay()) == 0 ? 8 : new Date().getDay()) - 1) * 86400000)
-      return session.date.seconds > mondayDay
-    })
-    if (sessions.length > 0) {
-      if (sessions.length > 16) {
-        status = "Completado"
-        progress = 100
-      } else {
-        status = "En progreso"
-        progress = (sessions.length / 16) * 100
-      }
-    }
-    lastModification = new Date(sessions[sessions.length - 1]?.date?.seconds * 1000).toLocaleDateString('en-GB')
-
-    return {
-      name: rutine.name,
-      link: `/rutines/${rutine.id}`,
-      status: status,
-      lastModification: lastModification,
-      progress: progress
-    }
-  })
+  const { getDataFormRutineTable } = useAllRutinesContext();
+  const data = getDataFormRutineTable();
 
   const columns = [
     {
@@ -236,6 +193,7 @@ const StatusIcon = ({ status }: any) => {
     case 'Completado':
       return <CheckIcon className='h-5 w-5 text-[#05CD99]' />
     case 'No iniciado':
+      return <LineIcon className='h-5 w-5 text-[#A3AED0]' />
       return <Xicon className='h-5 w-5 text-[#EE5D50]' />
     case 'En progreso':
       return <LineIcon className='h-5 w-5 text-[#FFCE20]' />
@@ -244,45 +202,9 @@ const StatusIcon = ({ status }: any) => {
 }
 
 const ExerciceTable = () => {
+  const { getDataFromExerciseTable } = useAllRutinesContext();
 
-  const data = [
-    {
-      name: 'Curl de bicep',
-      status: 152,
-      lastModification: +13,
-      progress: 75
-    },
-    {
-      name: 'Pres militar',
-      status: 152,
-      lastModification: -10,
-      progress: 0
-    },
-    {
-      name: 'Pierna',
-      status: 152,
-      lastModification: 4,
-      progress: 50
-    },
-    {
-      name: 'Curl de bicep',
-      status: 152,
-      lastModification: +13,
-      progress: 75
-    },
-    {
-      name: 'Pres militar',
-      status: 152,
-      lastModification: -10,
-      progress: 0
-    },
-    {
-      name: 'Pierna',
-      status: 152,
-      lastModification: 4,
-      progress: 50
-    },
-  ];
+  const data = getDataFromExerciseTable();
   const columns = [
     {
       Header: 'No',
@@ -293,8 +215,12 @@ const ExerciceTable = () => {
       accessor: 'name' // accessor is the "key" in the data
     },
     {
-      Header: 'RepxKg',
-      accessor: 'status'
+      Header: '1 Rep x Kg',
+      accessor: 'record1'
+    },
+    {
+      Header: '2 Rep x Kg',
+      accessor: 'record1'
     },
     {
       Header: 'Modification',
@@ -318,25 +244,36 @@ const ExerciceTable = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((row, i) => (
+          {data.map((row:any, i:any) => (
             <tr key={i} className="bg-white dark:bg-[#02081B]">
               <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
                 <p>{i + 1}</p>
               </td>
               <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-[#2B3674] dark:text-white">
+              <Link href={row.link}>
                 {row.name}
+              </Link>
+
               </th>
               <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
                 <div className='flex gap-2'>
-                  <StatusIcon status={row.status} />
+                  {/* <StatusIcon status={row.status} /> */}
                   {/* <CheckIcon className='h-5 w-5 text-[#05CD99]' />  */}
 
-                  {row.status}
+                  {row.record1}
+                </div>
+              </td>
+              <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
+                <div className='flex gap-2'>
+                  {/* <StatusIcon status={row.status} /> */}
+                  {/* <CheckIcon className='h-5 w-5 text-[#05CD99]' />  */}
+
+                  {row.record2}
                 </div>
               </td>
               <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
 
-                {row.lastModification > 0 ? <span className='text-[#05CD99]'>+{row.lastModification}</span> : <span className='text-[#EE5D50]'>{row.lastModification}</span>}
+                {row.record2 - row.record1 > 0 ? <span className='text-[#05CD99]'>+{row.record2 - row.record1}</span> : <span className='text-[#EE5D50]'>{row.record2 - row.record1}</span>}
               </td>
 
             </tr>
@@ -360,7 +297,7 @@ const ProgressBar = ({ total, value }: any) => {
   );
 };
 const DayWorkout = ({ day, active }: any) => {
-  return <div className='flex flex-col justify-center'>
+  return <div className='flex flex-col justify-center '>
     <span className="text-gray-light text-xs md:text-base font-semibold text-center dark:text-white">{day}</span>
     {active ? <div className='bg-primary w-8 h-8 rounded-full flex justify-center items-center mt-5 md:w-12 md:h-12 md:mt-8' >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="5" stroke="currentColor" className="w-3 h-3 text-white md:w-5 md:h-5">

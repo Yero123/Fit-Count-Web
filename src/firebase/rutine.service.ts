@@ -1,6 +1,7 @@
 import { collection, query, where, getDocs, doc, getDoc, addDoc } from "firebase/firestore";
 import { db } from "./config";
 import { getLastSessionsOnWeek } from "./sessions.service";
+import { getSessionsFromExercise } from "./exercise.service";
 const USER_ID = 'pg04fNCoICxrRKjcfZuH';
 export const getRutines = async () => {
   const collRef = collection(db, "users", USER_ID, "rutines")
@@ -30,7 +31,23 @@ export const getRutines = async () => {
   }))
   return rutines
 }
+export const getRutinesExercisesSessions = async () => {
+  const rutines = await getRutines();
+  await rutines.forEach(async (rutine: any) => {
+    rutine.exercises.forEach(async (exercise: any) => {
+      exercise.sessions = []
+      const sessions = await getSessionsFromExercise(exercise.id)
+      if (sessions) {
+        exercise.sessions = sessions
+      }
+    })
+  })
+  return rutines
 
+}
+export const getRutineTableData = async (id: string) => {
+  
+}
 export const getRutine = async (idRutine: string) => {
   const docRef = doc(db, "users", USER_ID, "rutines", idRutine);
   const docSnap = await getDoc(docRef);

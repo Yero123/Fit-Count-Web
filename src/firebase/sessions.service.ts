@@ -1,6 +1,7 @@
 import { collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "./config";
 import { getExercise } from "./exercise.service";
+import { getCurrentMondayDate } from "@/utils/functions";
 const USER_ID = 'pg04fNCoICxrRKjcfZuH';
 
 export const addSession = async (idExercise: string, session: any) => {
@@ -21,16 +22,8 @@ export const deleteSession = async (idExercise: string, idSession: string) => {
   return await deleteDoc(docRef)
 }
 export const getLastSessionsOnWeek = async () => {
-  // week progres
-  const currentDate = new Date();
-  currentDate.setHours(0);
-  currentDate.setMinutes(0);
-  currentDate.setSeconds(0);
-  currentDate.setMilliseconds(0);
-  const mondayDay = currentDate.getTime() - ((((new Date().getDay()) == 0 ? 8 : new Date().getDay()) - 1) * 86400000)
-  console.log("mondayDay", new Date(mondayDay))
-  //ver 
-  const q = query(collection(db, "users", USER_ID, "sessions"), where("date", ">", new Date(mondayDay)))
+  const currentDate = getCurrentMondayDate();
+  const q = query(collection(db, "users", USER_ID, "sessions"), where("date", ">", currentDate))
   const querySnapshot2 = await getDocs(q);
   const sessions: any = [];
   querySnapshot2.forEach((doc) => {
