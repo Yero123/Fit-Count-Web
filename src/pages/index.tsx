@@ -20,6 +20,7 @@ import { BarChartExample3 } from '@/components/charts/BarChart';
 import SunIcon from '@/components/icons/SunIcon';
 import MoonIcon from '@/components/icons/MoonIcon';
 import ButtonTheme from '@/components/ButtonTheme';
+import { Rutine, Session } from '@/models';
 
 export default function Home() {
 
@@ -117,45 +118,53 @@ export default function Home() {
 }
 
 const RutineTable = () => {
-  const data = [
-    {
-      name: 'Empuje',
-      status: 'Completado',
-      lastModification: '19 feb 2024',
-      progress: 75
-    },
-    {
-      name: 'Jale',
-      status: 'No iniciado',
-      lastModification: '19 feb 2024',
-      progress: 0
-    },
-    {
-      name: 'Pierna',
-      status: 'En progreso',
-      lastModification: '19 feb 2024',
-      progress: 50
-    },
-    {
-      name: 'Empuje',
-      status: 'Completado',
-      lastModification: '19 feb 2024',
-      progress: 75
-    },
-    {
-      name: 'Pierna',
-      status: 'En progreso',
-      lastModification: '19 feb 2024',
-      progress: 50
-    },
-    {
-      name: 'Empuje',
-      status: 'Completado',
-      lastModification: '19 feb 2024',
-      progress: 75
-    }
 
-  ];
+  const { loading, reportWeek, rutines, setloading, reset } = useAllRutinesContext();
+  const data = rutines.map((rutine: Rutine) => {
+    let status = "No iniciado"
+    let lastModification = "No encontrado"
+    let progress = 0
+    let sessions: Session[] = [];
+    if (rutine.exercises.length > 0) {
+      rutine.exercises.forEach((exercise) => {
+        if (exercise.sessions?.length > 0) {
+          sessions.push(...exercise.sessions)
+        }
+      })
+    }
+    sessions = sessions.sort((a, b) => {
+      return a.date.seconds - b.date.seconds
+    })
+    sessions = sessions.filter((session) => {
+      //this week 
+      const currentDate = new Date();
+      currentDate.setHours(0);
+      currentDate.setMinutes(0);
+      currentDate.setSeconds(0);
+      currentDate.setMilliseconds(0);
+      const mondayDay = currentDate.getTime() - ((((new Date().getDay()) == 0 ? 8 : new Date().getDay()) - 1) * 86400000)
+      return session.date.seconds > mondayDay
+    })
+    if (sessions.length > 0) {
+      if (sessions.length > 16) {
+        status = "Completado"
+        progress = 100
+      } else {
+        status = "En progreso"
+        progress = (sessions.length / 16) * 100
+      }
+    }
+    lastModification = new Date(sessions[sessions.length - 1]?.date?.seconds * 1000).toLocaleDateString('en-GB')
+
+    return {
+      name: rutine.name,
+      link: `/rutines/${rutine.id}`,
+      status: status,
+      lastModification: lastModification,
+      progress: progress
+    }
+  })
+
   const columns = [
     {
       Header: 'Nombre',
@@ -190,10 +199,11 @@ const RutineTable = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((row, i) => (
+          {data.map((row: any, i: any) => (
             <tr key={i} className="bg-white dark:bg-[#02081B]">
               <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-[#2B3674] dark:text-white">
-                {row.name}
+                <Link href={row.link}>{row.name}</Link>
+
               </th>
               <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
                 <div className='flex gap-2'>
