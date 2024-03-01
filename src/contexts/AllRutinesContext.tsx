@@ -85,11 +85,55 @@ export default function AllRutinesProvider(props: any) {
         let progress = 0
         let maxSessions=16;
         let totalSessions=0;
-        
+        let range1:any;
+        let range2:any;
+        let record1=0;
+        let record2=0;
         if (exercise.sessions) {
-          exercise.sessions.forEach((session) => {
-            // const [start, end] = getRangeWeek(new Date(session.date.seconds*1000))
- 
+          if(exercise.id=="8MmaQZSrP7EWZuwsDbut"){
+
+            console.log(exercise.sessions)
+          }
+          exercise.sessions.sort((a, b) => {
+            return   b.date.seconds - a.date.seconds
+          }).forEach((session) => {
+            const dateSession=new Date(session.date.seconds*1000);
+           
+            const [start, end] = getRangeWeek(dateSession)
+            // if(exercise.id=="8MmaQZSrP7EWZuwsDbut"){
+
+            //   console.log("dateSession",dateSession,
+            //   "start",start,
+            //   "end",end
+              
+            //   )
+            // }
+            
+            if(range1==undefined){
+              range1=[start, end]
+            }
+            if(exercise.id=="8MmaQZSrP7EWZuwsDbut"){
+              console.log("dateSession",dateSession)
+              console.log("range1",range1, "start", start, "end", end, "exercise", exercise.name, "id", exercise.id, "session", session.weight*session.repetitions, "record1", record1, "record2", record2)
+            }
+            if( range1[0]==start && range1[1]==end){
+              record1=record1 + session.weight*session.repetitions
+              if(exercise.id=="8MmaQZSrP7EWZuwsDbut"){
+
+                console.log("record1",record1, "weight", session.weight, "repetitions", session.repetitions)
+              }
+            }else{
+              if(range2==undefined){
+                range2=[start, end]
+              }
+              if(range2[0]==start && range2[1]==end){
+                record2= record2 + session.weight*session.repetitions
+              }
+            }
+            
+            
+            
+            // console.log("start", start, "end", end)
             // const sessionDay = sessionDate.getDay();
             // if (session.date.seconds > currentDate.getTime() / 1000) {
             //   status = "En progreso"
@@ -104,8 +148,8 @@ export default function AllRutinesProvider(props: any) {
         data.push({
           name: exercise.name,
           link: `/exercises/${exercise.id}`,
-          record1: 132,
-          record2: 152,
+          record1: record1,
+          record2: record2,
           })
       })
     })

@@ -9,6 +9,7 @@ export default function DoExerciseProvider(props: any) {
   const [exercise, setexercise] = useState<any>();
   const [refresh, setrefresh] = useState(false)
   const [sessionsByDate, setsessionsByDate] = useState<any>([]);
+  const [date, setdate] = useState<Date>(new Date());
   const [data, setdata] = useState<any>({
     labels: [],
     data: []
@@ -46,7 +47,7 @@ export default function DoExerciseProvider(props: any) {
   }
   const handleEditSession = async () => {
     setloading(true)
-    updateSession(exercise.id, sessionEditID as string, { repetitions, weight }).then(() => {
+    updateSession(exercise.id, sessionEditID as string, { repetitions, weight, date }).then(() => {
       setloading(false)
       setrefresh(!refresh)
       setinEditMode(false)
@@ -72,7 +73,9 @@ export default function DoExerciseProvider(props: any) {
     inEditMode, setinEditMode,
     setweight,
     setrepetitions,handleEditSession,
-    handleDeleteSession
+    handleDeleteSession,
+    setdate,
+    date
   }
   return (
     <DoExerciseContext.Provider value={value}>

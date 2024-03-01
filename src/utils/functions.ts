@@ -20,5 +20,5 @@ export const getRangeWeek = (date:Date) => {
     ((((start.getDay()) == 0 ? 8 : start.getDay()) - 1) * 86400000)
     start.setTime(mondayDay);
     end.setTime(mondayDay + 604800000);
-    return {start, end};
+    return [start, end];
 }

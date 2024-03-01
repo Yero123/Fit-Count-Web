@@ -29,3 +29,18 @@
     background-color: #666;
   }
 } */
+
+.custom-date-picker {
+  position: relative;
+}
+
+.custom-date-picker .tremor-datepicker-popover {
+  position: absolute;
+  top: auto;
+  bottom: 100%; /* Coloca la interfaz de selección encima del input */
+  left: 0;
+  z-index: 9999; /* Asegúrate de que esté por encima de otros elementos */
+}
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
