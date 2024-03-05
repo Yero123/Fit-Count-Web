@@ -64,15 +64,13 @@ export const passSessions = async () => {
   const rutines = await getDocs(collection(db, "users", USER_ID, "exercises"))
 
   rutines.docs.forEach(async (rutine) => {
-    console.log("rutine", rutine, "id", rutine.id)
+
     const idExercise = rutine.id;
     const exercise = await getExercise(idExercise);
-    console.log(exercise)
     //createSessions in firestore
     const collRef = collection(db, "users", USER_ID, "sessions")
     //@ts-ignore
     exercise?.exercise?.sessions?.forEach(async (session: any) => {
-      console.log(session)
       await addDoc(collRef, {
         repetitions: session.repetitions,
         weight: session.weight,

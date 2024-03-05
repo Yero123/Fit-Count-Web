@@ -22,7 +22,6 @@ const Header = () => {
     if (router.asPath === '/exercises') {
       return 'Exercises'
     }
-    console.log(router.query, router.asPath)
     if (router.asPath === '/rutines/new') {
       return 'New Rutine'
     }

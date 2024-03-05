@@ -1,4 +1,4 @@
-import { collection, query, where, getDocs, doc, getDoc, addDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "./config";
 import { getLastSessionsOnWeek } from "./sessions.service";
 import { getSessionsFromExercise } from "./exercise.service";
@@ -91,4 +91,13 @@ export const createRutine = async (rutine: any) => {
   return await addDoc(docRef, {
     name: rutine
   });
+}
+export const deleteRutine = async (id: string) => {
+  const docRef = doc(db, "users", USER_ID, "rutines", id);
+  return await deleteDoc(docRef)
+}
+
+export const updateRutine = async (id: string, rutine: any) => {
+  const docRef = doc(db, "users", USER_ID, "rutines", id);
+  return await updateDoc(docRef, rutine)
 }

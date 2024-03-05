@@ -20,7 +20,6 @@ const HistorialSection = () => {
         </ul>
       </>
     );
-    console.log(sessionsByDate)
   return (
     <>
       <div className="flex justify-around px-1 mt-6 mb-4  ">

@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/tailwindcss": "^0.2.0",
+    "@nextui-org/react": "^2.2.9",
     "@tremor/react": "^3.13.4",
     "@types/node": "20.4.1",
     "@types/react": "18.2.14",
@@ -20,6 +20,7 @@
     "eslint-config-next": "13.4.9",
     "firebase": "^10.0.0",
     "firestore": "^1.1.6",
+    "framer-motion": "^11.0.8",
     "next": "13.4.9",
     "postcss": "8.4.25",
     "react": "18.2.0",

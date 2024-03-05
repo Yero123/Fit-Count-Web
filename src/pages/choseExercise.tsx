@@ -12,7 +12,6 @@ const ChoseExercise = () => {
           <h2 className='font-bold'> {rutine.name}</h2>
           {
             rutine.exercises?.map((exercise: any, i: any) => {
-              console.log(!!customRutine.exercises.find((e: any) => e.id === exercise.id))
               return <div className='flex gap-2' key={i}>
                 <input type='checkbox' onClick={() => { checkExercise(exercise) }} checked={
                   !!customRutine.exercises.find((e: any) => e.id === exercise.id)

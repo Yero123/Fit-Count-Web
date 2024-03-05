@@ -19,8 +19,6 @@ const Layout = ({
     if (router.asPath === '/exercises') {
       return 'Ejercicios'
     }
-    console.log(router.query, router.asPath)
-    console.log(rutines)
     if (router.asPath.split('/')[1] === 'rutines') {
       if (rutines.length === 0) return "Rutina"
       const rutine = rutines?.find((rutine: any) => router.asPath === `/rutines/${rutine.id}`)

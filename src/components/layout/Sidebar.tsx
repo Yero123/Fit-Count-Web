@@ -1,19 +1,52 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import SaveIcon from "../icons/SaveIcon";
 import ChartIcon from "../icons/ChartIcon";
 import CarpetIcon from "../icons/CarpetIcon";
 import { useAllRutinesContext } from "@/contexts/AllRutinesContext";
 import ArrowDownIcon from "../icons/ArrowDownIcon";
-import { Button } from "@tremor/react";
+
 import CreateRutineButton from "./components/CreateRutineButton";
 import OptionIcon from "../icons/OptionIcon";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Button,
+  Popover,
+  PopoverTrigger,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@nextui-org/react";
+import { deleteRutine } from "@/firebase/rutine.service";
 
 const Sidebar = () => {
   const router = useRouter();
-  const { rutines } = useAllRutinesContext();
+  const { rutines, reset } = useAllRutinesContext();
+  const items = [
+    {
+      key: "edit",
+      label: "Edit rutine",
+    },
+    {
+      key: "delete",
+      label: "Delete rutine",
+    },
+  ];
 
+  const [isVisible, setisVisible] = useState(false);
+  const openModal = () => {
+    setisVisible(true);
+  };
+  const onClose = () => {
+    setisVisible(false);
+  };
+  const [currentIdRutine, setcurrentIdRutine] = useState("")
   return (
     <div className="hidden md:flex min-w-[150px] px-10 bg-[#FAFAFA] h-[100vh] flex-col dark:bg-[#02081B]">
       <Link
@@ -41,6 +74,32 @@ const Sidebar = () => {
         /> */}
       </div>
       <div className="w-full h-[0.1rem] mt-12 bg-slate-400 dark:bg-slate-600" />
+      <Modal backdrop={"blur"} isOpen={isVisible} onClose={onClose}>
+        <ModalContent>
+          <ModalHeader className="flex flex-col gap-1">
+            Eliminar Rutina
+          </ModalHeader>
+          <ModalBody>
+            <p>Seguro que quieres eliminar esta rutina?</p>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" variant="light" onPress={onClose}>
+              Close
+            </Button>
+            <Button
+              color="primary"
+              onPress={() => {
+                deleteRutine(currentIdRutine).then((e) => {
+                  console.log(currentIdRutine)
+                  reset();
+                });
+              }}
+            >
+              Confirm
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <div className="mt-12 flex flex-col gap-6 min-w-[200px]">
         {rutines.map((rutine: any, index: any) => {
           const hasExerecises = rutine.exercises.some(
@@ -70,7 +129,26 @@ const Sidebar = () => {
                       {rutine.name}
                     </p>
                   </Link>
-                  <OptionIcon className="h-6 w-6 dark:text-slate-500" />
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button size="sm" variant="light">
+                        <OptionIcon className="h-6 w-6 dark:text-slate-500" />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Dynamic Actions" items={items}>
+                      <DropdownItem color={"default"}>Edit Rutine</DropdownItem>
+                      <DropdownItem
+                        color={"danger"}
+                        className="text-danger"
+                        onClick={()=>{
+                          setcurrentIdRutine(rutine.id);
+                          openModal()
+                        }}
+                      >
+                        Eliminar Rutina
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                 </div>
               </summary>
               <div className="flex flex-col gap-3 pt-3">

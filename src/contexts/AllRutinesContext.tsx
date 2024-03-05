@@ -13,15 +13,20 @@ export default function AllRutinesProvider(props: any) {
   const [reportWeek, setreportWeek] = useState([false, false, false, false, false, false, false]);
   const [re, setre] = useState(false);
   const [rutinesAll, setrutinesAll] = useState<Rutine[]>([]);
-  useEffect(() => {
-    getRutinesExercisesSessions().then((rutines) => {
-      setrutinesAll(rutines)
-    })
-  }, [])  
-    console.log("rutinesAll", rutinesAll)
-  const reset = () => { setre(!re) }
-  console.log(rutines)
   const [lastsSessions, setlastsSessions] = useState<Session[]>([]);
+    const [customRutine, setcustomRutine] = useState<any>({
+    name: "Today Rutine",
+    exercises: [],
+    id: "dasdaskaoksdhfas"
+  });
+  useEffect(() => {
+    //get custom rutine from localstorage
+    const customRutine = localStorage.getItem('customRutine')
+    if (customRutine) {
+      setcustomRutine(JSON.parse(customRutine))
+    }
+
+  }, [])
   // const [weeks, setweeks] = useState(second)
   useEffect(() => {
     setloading(true)
@@ -36,6 +41,13 @@ export default function AllRutinesProvider(props: any) {
 
 
   }, [re])
+  useEffect(() => {
+    getRutinesExercisesSessions().then((rutines) => {
+      setrutinesAll(rutines)
+    })
+  }, [])  
+
+  const reset = () => { setre(!re) }
   const getDataFormRutineTable =  ():{
     name: string;
     link: string;
@@ -66,6 +78,9 @@ export default function AllRutinesProvider(props: any) {
         }
       })
       progress = (totalSessions/maxSessions)*100
+      if(progress>=100){
+        status="Completado"
+      }
       return {
         name: rutine.name,
         link: `/rutines/${rutine.id}`,
@@ -92,7 +107,6 @@ export default function AllRutinesProvider(props: any) {
         if (exercise.sessions) {
           if(exercise.id=="8MmaQZSrP7EWZuwsDbut"){
 
-            console.log(exercise.sessions)
           }
           exercise.sessions.sort((a, b) => {
             return   b.date.seconds - a.date.seconds
@@ -100,27 +114,16 @@ export default function AllRutinesProvider(props: any) {
             const dateSession=new Date(session.date.seconds*1000);
            
             const [start, end] = getRangeWeek(dateSession)
-            // if(exercise.id=="8MmaQZSrP7EWZuwsDbut"){
-
-            //   console.log("dateSession",dateSession,
-            //   "start",start,
-            //   "end",end
-              
-            //   )
-            // }
-            
             if(range1==undefined){
               range1=[start, end]
             }
             if(exercise.id=="8MmaQZSrP7EWZuwsDbut"){
-              console.log("dateSession",dateSession)
-              console.log("range1",range1, "start", start, "end", end, "exercise", exercise.name, "id", exercise.id, "session", session.weight*session.repetitions, "record1", record1, "record2", record2)
+        
             }
             if( range1[0]==start && range1[1]==end){
               record1=record1 + session.weight*session.repetitions
               if(exercise.id=="8MmaQZSrP7EWZuwsDbut"){
 
-                console.log("record1",record1, "weight", session.weight, "repetitions", session.repetitions)
               }
             }else{
               if(range2==undefined){
@@ -132,16 +135,7 @@ export default function AllRutinesProvider(props: any) {
             }
             
             
-            
-            // console.log("start", start, "end", end)
-            // const sessionDay = sessionDate.getDay();
-            // if (session.date.seconds > currentDate.getTime() / 1000) {
-            //   status = "En progreso"
-            //   totalSessions++
-            // }
-            // if(session.date.seconds>lastModification || lastModification=="No encontrado"){
-            //   lastModification = new Date(session.date.seconds*1000).toLocaleDateString('en-GB')
-            // }
+          
           })
         }
         progress = (totalSessions/maxSessions)*100
@@ -175,7 +169,7 @@ export default function AllRutinesProvider(props: any) {
             })
           }
         })
-        console.log(rutines, newRutines)
+
         setrutines(newRutines)
         setlastsSessions(sessions)
 
@@ -190,22 +184,8 @@ export default function AllRutinesProvider(props: any) {
     })
     return rutine
   }
-  console.log("reportWeek", reportWeek)
-  const [customRutine, setcustomRutine] = useState<any>({
-    name: "Today Rutine",
-    exercises: [],
-    id: "dasdaskaoksdhfas"
-  });
-  useEffect(() => {
-    //get custom rutine from localstorage
-    const customRutine = localStorage.getItem('customRutine')
-    if (customRutine) {
-      setcustomRutine(JSON.parse(customRutine))
-    }
 
-  }, [])
   const saveCustomRutineLocalStorage = () => {
-    console.log("customRutine", customRutine)
     localStorage.setItem('customRutine', JSON.stringify(customRutine))
   }
   const checkExercise = (exercise: any) => {
@@ -222,6 +202,7 @@ export default function AllRutinesProvider(props: any) {
     })
 
   }
+
   const value = {
     rutines,
     loading,

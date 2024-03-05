@@ -15,12 +15,13 @@
 //   },
 // };
 /** @type {import('tailwindcss').Config} */
-
+const {nextui} = require("@nextui-org/react");
 const colors = require("tailwindcss/colors");
 module.exports = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
     "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: "class",
   theme: {
@@ -149,5 +150,5 @@ module.exports = {
         /^(fill-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
     },
   ],
-  plugins: [require('@headlessui/tailwindcss'), require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/forms'),nextui()],
 };

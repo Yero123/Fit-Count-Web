@@ -10,9 +10,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return <>
     <ThemeProvider>
       <AllRutinesContext>
-        <Layout>
+        {/* <Layout> */}
           <Component {...pageProps} />
-        </Layout>
+        {/* </Layout> */}
       </AllRutinesContext>
     </ThemeProvider>
   </>

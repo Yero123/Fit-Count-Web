@@ -14,7 +14,6 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head title='FitCount'>
-        <title>Fit Count</title>
         <meta name="description" content="Fit Count" />
         <meta name="manifest" content="/manifest.json" />
         <meta name='theme-color' content='#F4F7FE' />

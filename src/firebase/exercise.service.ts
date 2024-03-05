@@ -1,4 +1,4 @@
-import { collection, query, where, getDocs, doc, getDoc, orderBy, addDoc, updateDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc, orderBy, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "./config";
 const USER_ID = 'pg04fNCoICxrRKjcfZuH';
 export const getExercise = async (id: string) => {
@@ -89,4 +89,16 @@ export const createExercise = async (exercise: any, idRutine: any) => {
     exercises: exercises
   })
   return exerciseCreated;
+}
+
+export const deleteExercise = async (id: string) => {
+  const docRef = doc(db, "users", USER_ID, "exercises", id);
+  await deleteDoc(docRef)
+}
+
+export const updateExercise = async (id: string, name: string) => {
+  const docRef = doc(db, "users", USER_ID, "exercises", id);
+  await updateDoc(docRef, {
+    name: name
+  })
 }
