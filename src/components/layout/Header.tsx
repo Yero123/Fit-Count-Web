@@ -43,7 +43,7 @@ const Header = () => {
     return 'Dashboard'
   }
   return (
-    <header className='flex justify-between pt-8 px-10 pb-2 md:hidden md:max-w-[1000px] md:m-auto md:bg-white md:rounded-xl md:my-6 md:pt-2 md:px-6 '>
+    <header className='flex justify-between pt-8 px-6  md:hidden md:max-w-[1000px] md:m-auto md:bg-white md:rounded-xl md:my-6 md:pt-2 md:px-6 '>
       <Modal
         visible={visible}
         openModal={openModal}
@@ -55,7 +55,7 @@ const Header = () => {
       </Modal>
       <div className='flex justify-center items-center'>
 
-        {router.asPath === '/' && <Link href="/" className=' font-bold text-[1.6rem] md:p-0 md:text-[1.8rem] dark:text-white'><h1>Fit count</h1></Link>}
+        { <Link href="/" className=' font-bold text-[1.6rem] md:p-0 md:text-[1.8rem] dark:text-white'><h1>Fit count</h1></Link>}
         <span className='pl-8 items-end justify-end p-0 m-0 hidden md:block dark:text-white'>Home / {getTitle()}</span>
       </div>
 

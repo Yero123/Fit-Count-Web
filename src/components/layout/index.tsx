@@ -59,7 +59,7 @@ const Layout = ({
       <Sidebar />
       <Header />
       <div className='flex w-full flex-1 px-6 md:px-12 pt-3 md:pt-8 flex-col'>
-        <div className=' justify-between w-full h-min align-middle 2xl:mb-4 hidden md:flex'>
+        <div className=' justify-between w-full h-min align-middle  hidden md:flex'>
           <p className='text-center p-0 m-0  dark:text-white'>Home / {getTitle()}</p>
           <div className='flex justify-center items-center gap-4'>
             <ButtonTheme />

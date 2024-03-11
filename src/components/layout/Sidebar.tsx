@@ -59,7 +59,7 @@ const Sidebar = () => {
         <SidebarItem
           title="Dashboard"
           icon={<SaveIcon className="h-4 w-4 self-center dark:text-white" />}
-          active={router.asPath === "/"}
+          active={true}
           href="/"
         />
         {/* <SidebarItem title='Rutines'
@@ -136,7 +136,7 @@ const Sidebar = () => {
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu aria-label="Dynamic Actions" items={items}>
-                      <DropdownItem color={"default"}>Edit Rutine</DropdownItem>
+                      {/* <DropdownItem color={"default"}>Edit Rutine</DropdownItem> */}
                       <DropdownItem
                         color={"danger"}
                         className="text-danger"

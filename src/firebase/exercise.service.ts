@@ -83,7 +83,7 @@ export const createExercise = async (exercise: any, idRutine: any) => {
   const rutine = await getDoc(doc(db, "users", USER_ID, "rutines", idRutine))
   let exercises = [];
   if (rutine?.data()?.exercises) {
-    exercises = rutine.data()?.exercises.push(exerciseCreated.id)
+    exercises = rutine.data()?.exercises?.push(exerciseCreated.id)
   }
   await updateDoc(doc(db, "users", USER_ID, "rutines", idRutine), {
     exercises: exercises

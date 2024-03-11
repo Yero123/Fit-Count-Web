@@ -1,9 +1,9 @@
 import React from 'react'
 
 const Title = ({ children, loading }: any) => {
-  if (loading) return <div className='animate-pulse bg-secondary w-2/3 h-10 rounded-full mb-6 md:hidden'></div>
+  if (loading) return <div className='animate-pulse bg-secondary md:w-[500px] h-10 rounded-full mb-6 '></div>
   return (
-    <h1 className='text-2xl font-semibold mb-3 mt-2 md:hidden dark:text-white'>{children}</h1>
+    <h1 className='text-2xl font-semibold mb-3  md:text-3xl md:mb-6 dark:text-white'>{children}</h1>
   )
 }
 
