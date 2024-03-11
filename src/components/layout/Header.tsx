@@ -96,7 +96,7 @@ const BodyModal = ({ closeModal }: any) => {
   const { loading, rutines } = useAllRutinesContext();
 
   return <>
-    <div className='overflow-y-scroll h-[80vh]'>
+    <div className='overflow-y-scroll h-[80vh] dark:bg-black'>
       <ListRutines rutines={rutines} loading={loading} closeModal={closeModal} />
     </div>
   </>

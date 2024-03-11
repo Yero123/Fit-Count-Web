@@ -155,6 +155,10 @@ const Sidebar = () => {
                 {rutine.exercises.map((exercise: any, index: any) => {
                   const isActive =
                     router.asPath === `/exercises/${exercise.id}`;
+                    let style = " ";
+                    if (exercise.active) {
+                      style = " text-primary-text"
+                    }
                   return (
                     <details key={index} className="flex gap-3">
                       <summary className="flex pl-8 gap-3">
@@ -166,7 +170,7 @@ const Sidebar = () => {
                         <Link href={`/exercises/${exercise.id}`}>
                           <p
                             className={`font-bold text-base self-center ${
-                              isActive
+                              isActive || exercise.active
                                 ? "dark:text-primary"
                                 : " dark:text-slate-400"
                             }  ${

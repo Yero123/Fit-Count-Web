@@ -16,7 +16,7 @@ const RutineCard = ({
 
   return (
 
-    <div key={id} className='bg-white rounded-lg shadow-md p-4 flex justify-between gap-4'>
+    <div key={id} className='bg-white rounded-lg shadow-md p-4 flex justify-between gap-4  dark:bg-black'>
       <div className='flex w-[84%] gap-4'>
         {/* <div className='min-w-[35%] bg-tertiary rounded-2xl'>
           </div> */}
@@ -26,7 +26,7 @@ const RutineCard = ({
             {exercises.map((exercise: any) => {
               let style = " ";
               if (exercise.active) {
-                style = " text-primary-text"
+                style = " text-primary"
               }
               return <Link onClick={() => {
                 if (closeModal) closeModal()

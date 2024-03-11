@@ -8,6 +8,8 @@ import { useState } from "react";
 export const RutineTable = () => {
   const { getDataFormRutineTable } = useAllRutinesContext();
   const data = getDataFormRutineTable();
+  // isMobileVirewport
+
 
   const columns = [
     {
@@ -39,7 +41,7 @@ export const RutineTable = () => {
                 <th
                   key={i}
                   scope="col"
-                  className="px-6 py-3 text-[#A3AED0] font-medium"
+                  className="px-3 py-1 md:px-6 md:py-3 text-[#A3AED0] font-medium"
                 >
                   {column.Header}
                 </th>
@@ -51,22 +53,25 @@ export const RutineTable = () => {
               <tr key={i} className="bg-white dark:bg-[#02081B]">
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-[#2B3674] dark:text-white"
+                  className="px-3 py-3 md:px-6 md:py-3 font-medium text-gray-900 whitespace-nowrap text-[#2B3674] dark:text-white"
                 >
                   <Link href={row.link}>{row.name}</Link>
                 </th>
-                <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
-                  <div className="flex gap-2">
+                <td className="px-3 py-3 md:px-6 md:py-3font-bold text-[#2B3674] dark:text-white">
+                  <div className=" gap-2 hidden md:flex">
                     <StatusIcon status={row.status} />
                     {/* <CheckIcon className='h-5 w-5 text-[#05CD99]' />  */}
 
                     {row.status}
                   </div>
+                  <div className=" gap-2 flex md:hidden">
+                    <StatusIcon status={row.status} />
+                  </div>
                 </td>
-                <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
+                <td className="px-3 py-3 md:px-6 md:py-3font-bold text-[#2B3674] dark:text-white">
                   {row.lastModification}
                 </td>
-                <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
+                <td className="px-3 py-3 md:px-6 md:py-3 font-bold text-[#2B3674] dark:text-white">
                   <div className="w-full">
                     <ProgressBar total={100} value={row.progress} />
                   </div>

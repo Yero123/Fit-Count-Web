@@ -9,7 +9,7 @@ export const getMuscles = async () => {
     const collRef = collection(db, "users", USER_ID, "muscles")
     let muscles: any[] = [];
     const querySnapshot = await getDocs(collRef);
-    querySnapshot.forEach((doc) => {
+    querySnapshot.forEach((doc:any) => {
         muscles.push({
         id: doc.id,
         name: doc.data().name,

@@ -18,6 +18,11 @@ export default function Document() {
         <meta name="manifest" content="/manifest.json" />
         <meta name='theme-color' content='#F4F7FE' />
         <link rel="manifest" href="/manifest.json"/>
+          {/* Evitar traducción automática */}
+          <meta name="google" content="notranslate" />
+          {/* Otra metaetiqueta para evitar traducción automática en otros navegadores */}
+          <meta httpEquiv="Content-Language" content="es" />
+          {/* Otros metadatos y enlaces de estilo aquí */}
       </Head>
 
       <body className={'bg-[#F4F7FE] h-screen dark:bg-[#02081B]'}  >
