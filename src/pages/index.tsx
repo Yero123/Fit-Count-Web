@@ -38,7 +38,7 @@ export default function Home() {
         <div className="hidden md:block pt-5">
         <Title loading={loading}>Rutinas</Title>
         </div>
-        <div className="xl:flex-nowrap flex gap-8 flex-wrap pt-5">
+        <div className="xl:flex-nowrap flex gap-8 flex-wrap pt-5 md:pt-0">
           <RutineTable />
           <div className="flex bg-white rounded-lg flex-col shadow px-3 pb-6 md:pt-1 mb-8   relative md:px-8 md:py-6 md:pt-6 md:mb-6 z-0 flex-1 w-full dark:bg-[#02081B] dark:border-slate-600 dark:border-[1px]">
             <div className="flex justify-between mt-4 gap-3">

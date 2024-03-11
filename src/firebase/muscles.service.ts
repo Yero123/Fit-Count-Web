@@ -17,3 +17,14 @@ export const getMuscles = async () => {
     });
     return muscles
 }
+
+export const createMuscle= async (name:string)=>{
+    const docRef = await addDoc(collection(db, "users", USER_ID, "muscles"), {
+        name
+    });
+    const doc = await getDoc(docRef);
+    return {
+        id: doc.id,
+        ...doc.data()
+    }
+}

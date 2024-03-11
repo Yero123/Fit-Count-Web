@@ -73,21 +73,22 @@ export const getSessionsFromExercise = async (id: string) => {
   })
 }
 
-export const createExercise = async (exercise: any, idRutine: any) => {
+export const createExercise = async (exercise: any, idRutine: any, selectedMuscles?:any) => {
   const docRef = collection(db, "users", USER_ID, "exercises");
-
+  console.log(selectedMuscles)
   const exerciseCreated = await addDoc(docRef, {
     name: exercise,
-    idRutine: idRutine
+    idRutine: idRutine,
+    muscles: selectedMuscles
   });
-  const rutine = await getDoc(doc(db, "users", USER_ID, "rutines", idRutine))
-  let exercises = [];
-  if (rutine?.data()?.exercises) {
-    exercises = rutine.data()?.exercises?.push(exerciseCreated.id)
-  }
-  await updateDoc(doc(db, "users", USER_ID, "rutines", idRutine), {
-    exercises: exercises
-  })
+  // const rutine = await getDoc(doc(db, "users", USER_ID, "rutines", idRutine))
+  // let exercises = [];
+  // if (rutine?.data()?.exercises) {
+  //   exercises = rutine.data()?.exercises?.push(exerciseCreated.id)
+  // }
+  // await updateDoc(doc(db, "users", USER_ID, "rutines", idRutine), {
+  //   exercises: exercises
+  // })
   return exerciseCreated;
 }
 
