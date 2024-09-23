@@ -1,4 +1,4 @@
-import { getRutines, getRutinesExercisesSessions } from "@/firebase/rutine.service";
+import { getRutinesWithExercices, getRutinesExercisesSessions } from "@/firebase/rutine.service";
 import { getDaysWorkedByWeek, getSessionsByRange } from "@/firebase/sessions.service";
 import { Rutine, Session } from "@/models";
 import Rutines from "@/pages/rutines";
@@ -30,7 +30,7 @@ export default function AllRutinesProvider(props: any) {
   // const [weeks, setweeks] = useState(second)
   useEffect(() => {
     setloading(true)
-    getRutines().then((rutines) => {
+    getRutinesWithExercices().then((rutines) => {
       setrutines(rutines);
       setloading(false)
     });

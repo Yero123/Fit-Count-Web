@@ -43,7 +43,6 @@ const RutinePage = () => {
 
   return (
     <>
-      <Layout>
        <div className="flex md:w-[500px] justify-between">
          <Title loading={loading}>{rutine?.name}</Title>
       <div
@@ -80,7 +79,6 @@ const RutinePage = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
-      </Layout>
     </>
   );
 };

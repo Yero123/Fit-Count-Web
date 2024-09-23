@@ -1,39 +1,18 @@
-import { useEffect, useState } from "react";
-import { createRutine, getRutines } from "@/firebase/rutine.service";
-import Title from "@/components/ui/Title";
-import ListRutines from "@/components/ListRutines";
-import FloatingAddButton from "@/components/FloatingAddButton";
-import Modal from "@/components/ui/Modal";
-import { getDaysWorkedByWeek, passSessions } from "@/firebase/sessions.service";
-import { useAllRutinesContext } from "@/contexts/AllRutinesContext";
-import Link from "next/link";
-import Sidebar from "@/components/layout/Sidebar";
-import Header from "@/components/layout/Header";
-import Image from "next/image";
-import CheckIcon from "@/components/icons/CheckIcon";
-import Xicon from "@/components/icons/Xicon";
-import LineIcon from "@/components/icons/LineIcon";
 
-import { Card, Text, Metric, Button } from "@tremor/react";
-import { useThemeContext } from "@/contexts/ThemeProvider";
+import Title from "@/components/ui/Title";
+import { useAllRutinesContext } from "@/contexts/AllRutinesContext";
 import { BarChartExample3 } from "@/components/charts/BarChart";
-import SunIcon from "@/components/icons/SunIcon";
-import MoonIcon from "@/components/icons/MoonIcon";
-import ButtonTheme from "@/components/ButtonTheme";
-import { Rutine, Session } from "@/models";
 import {
   DayWorkout,
   ExerciceTable,
   RutineTable,
 } from "@/components/pages/Dashboard";
-import Layout from "@/components/layout";
 
 export default function Home() {
   const { loading, reportWeek, rutines, setloading, reset } =
     useAllRutinesContext();
 
   return (
-    <Layout>
       <div>
         <div className="hidden md:block pt-5">
         <Title loading={loading}>Rutinas</Title>
@@ -58,6 +37,5 @@ export default function Home() {
           <ExerciceTable />
         </div>
       </div>
-    </Layout>
   );
 }

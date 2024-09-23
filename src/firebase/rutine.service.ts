@@ -1,10 +1,20 @@
-import { collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "./config";
 import { getLastSessionsOnWeek } from "./sessions.service";
 import { getSessionsFromExercise } from "./exercise.service";
-const USER_ID = 'pg04fNCoICxrRKjcfZuH';
-export const getRutines = async () => {
-  const collRef = collection(db, "users", USER_ID, "rutines")
+const USER_ID = "pg04fNCoICxrRKjcfZuH";
+export const getRutinesWithExercices = async () => {
+  const collRef = collection(db, "users", USER_ID, "rutines");
   let rutines: any[] = [];
   const querySnapshot = await getDocs(collRef);
   querySnapshot.forEach(async (doc) => {
@@ -15,39 +25,40 @@ export const getRutines = async () => {
   });
   const sessions = await getLastSessionsOnWeek();
 
-  rutines = await Promise.all(rutines.map(async (rutine) => {
-    let exercises = await getExerciseFromRutine(rutine.id);
-    exercises.forEach((exercise: any) => {
-      if (sessions.some((session: any) => session.idExercise == exercise.id)) {
-        exercise.active = true
-      } else {
-        exercise.active = false
-      }
+  rutines = await Promise.all(
+    rutines.map(async (rutine) => {
+      let exercises = await getExerciseFromRutine(rutine.id);
+      exercises.forEach((exercise: any) => {
+        if (
+          sessions.some((session: any) => session.idExercise == exercise.id)
+        ) {
+          exercise.active = true;
+        } else {
+          exercise.active = false;
+        }
+      });
+      return {
+        ...rutine,
+        exercises,
+      };
     })
-    return {
-      ...rutine,
-      exercises
-    }
-  }))
-  return rutines
-}
+  );
+  return rutines;
+};
 export const getRutinesExercisesSessions = async () => {
-  const rutines = await getRutines();
+  const rutines = await getRutinesWithExercices();
   await rutines.forEach(async (rutine: any) => {
     rutine.exercises.forEach(async (exercise: any) => {
-      exercise.sessions = []
-      const sessions = await getSessionsFromExercise(exercise.id)
+      exercise.sessions = [];
+      const sessions = await getSessionsFromExercise(exercise.id);
       if (sessions) {
-        exercise.sessions = sessions
+        exercise.sessions = sessions;
       }
-    })
-  })
-  return rutines
-
-}
-export const getRutineTableData = async (id: string) => {
-  
-}
+    });
+  });
+  return rutines;
+};
+export const getRutineTableData = async (id: string) => {};
 export const getRutine = async (idRutine: string) => {
   const docRef = doc(db, "users", USER_ID, "rutines", idRutine);
   const docSnap = await getDoc(docRef);
@@ -56,23 +67,20 @@ export const getRutine = async (idRutine: string) => {
     let exercises = await getExerciseFromRutine(idRutine);
     exercises.forEach((exercise: any) => {
       if (sessions.some((session: any) => session.idExercise == exercise.id)) {
-        exercise.active = true
+        exercise.active = true;
       } else {
-        exercise.active = false
+        exercise.active = false;
       }
-    })
+    });
     return {
       id: docSnap.id,
       name: docSnap.data().name,
-      exercises
-    }
-  }
-  else
-    return null
-
-}
+      exercises,
+    };
+  } else return null;
+};
 export const getExerciseFromRutine = async (id: string) => {
-  const collRef = collection(db, "users", USER_ID, "exercises")
+  const collRef = collection(db, "users", USER_ID, "exercises");
   const q = query(collRef, where("idRutine", "==", id));
   const querySnapshot = await getDocs(q);
   let exercises: any[] = [];
@@ -80,24 +88,37 @@ export const getExerciseFromRutine = async (id: string) => {
     exercises.push({
       idRutine: doc.data().idRutine,
       name: doc.data().name,
-      id: doc.id
-    })
+      id: doc.id,
+    });
   });
-  return exercises
-}
+  return exercises;
+};
 
 export const createRutine = async (rutine: any) => {
   const docRef = collection(db, "users", USER_ID, "rutines");
   return await addDoc(docRef, {
-    name: rutine
+    name: rutine,
   });
-}
+};
 export const deleteRutine = async (id: string) => {
   const docRef = doc(db, "users", USER_ID, "rutines", id);
-  return await deleteDoc(docRef)
-}
+  return await deleteDoc(docRef);
+};
 
 export const updateRutine = async (id: string, rutine: any) => {
   const docRef = doc(db, "users", USER_ID, "rutines", id);
-  return await updateDoc(docRef, rutine)
-}
+  return await updateDoc(docRef, rutine);
+};
+
+export const getRutines = async () => {
+  const collRef = collection(db, "users", USER_ID, "rutines");
+  let rutines: any[] = [];
+  const querySnapshot = await getDocs(collRef);
+  querySnapshot.forEach((doc) => {
+    rutines.push({
+      id: doc.id,
+      name: doc.data().name,
+    });
+  });
+  return rutines;
+};
