@@ -107,7 +107,7 @@ const Page = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  return (
+    return (
     <div>
       index
       <ModalCreateExercices />
