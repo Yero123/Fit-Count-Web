@@ -118,8 +118,21 @@ export const updateExercise = async (id: string, name: string) => {
     name: name,
   });
 };
-
-export const getExercises = async ({
+export const getExercises = async () => {
+  const collRef = collection(db, "users", USER_ID, "exercises");
+  const q = query(collRef, orderBy("name"));
+  const querySnapshot = await getDocs(q);
+  let exercises: any[] = [];
+  querySnapshot.forEach((doc) => {
+    exercises.push({
+      id: doc.id,
+      name: doc.data().name,
+      idRutine: doc.data().idRutine,
+    });
+  });
+  return exercises;
+}
+export const getExercisesTable = async ({
   pagination,
   filters,
 }: {

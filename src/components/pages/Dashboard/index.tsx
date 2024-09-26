@@ -1,16 +1,14 @@
 import CheckIcon from "@/components/icons/CheckIcon";
 import LineIcon from "@/components/icons/LineIcon";
-import { useAllRutinesContext } from "@/contexts/AllRutinesContext";
 import { createRutine } from "@/firebase/rutine.service";
+import { useExerciseStatus } from "@/hooks/dashboard/useExerciseStatus";
+import { useRutineStatus } from "@/hooks/dashboard/useRutineStatus";
+import { useWeekStatus } from "@/hooks/dashboard/useWeekStatus";
 import Link from "next/link";
 import { useState } from "react";
 
 export const RutineTable = () => {
-  const { getDataFormRutineTable } = useAllRutinesContext();
-  const data = getDataFormRutineTable();
-  // isMobileVirewport
-
-
+  const { dataTable } = useRutineStatus();
   const columns = [
     {
       Header: "Nombre",
@@ -49,7 +47,7 @@ export const RutineTable = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((row: any, i: any) => (
+            {dataTable.map((row: any, i: any) => (
               <tr key={i} className="bg-white dark:bg-[#02081B]">
                 <th
                   scope="row"
@@ -98,9 +96,8 @@ export const StatusIcon = ({ status }: any) => {
 };
 
 export const ExerciceTable = () => {
-  const { getDataFromExerciseTable } = useAllRutinesContext();
+  const { dataTable } = useExerciseStatus();
 
-  const data = getDataFromExerciseTable();
   const columns = [
     {
       Header: "No",
@@ -143,7 +140,7 @@ export const ExerciceTable = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((row: any, i: any) => (
+            {dataTable.map((row: any, i: any) => (
               <tr key={i} className="bg-white dark:bg-[#02081B]">
                 <td className="px-6 py-4 font-bold text-[#2B3674] dark:text-white">
                   <p>{i + 1}</p>
@@ -283,5 +280,23 @@ export const FormCreateRutine = ({ setloading, closeModal, reset }: any) => {
         </div>
       </div>
     </>
+  );
+};
+
+export const WeekActivity = () => {
+  const { reportWeek } = useWeekStatus();
+  return (
+    <div className="flex bg-white rounded-lg flex-col shadow px-3 pb-6 md:pt-1 mb-8   relative md:px-8 md:py-6 md:pt-6 md:mb-6 z-0 flex-1 w-full dark:bg-[#02081B] dark:border-slate-600 dark:border-[1px]">
+      <div className="flex justify-between mt-4 gap-3">
+        <DayWorkout day="Lun" active={reportWeek[1]} />
+        <DayWorkout day="Mar" active={reportWeek[2]} />
+        <DayWorkout day="Mie" active={reportWeek[3]} />
+        <DayWorkout day="Jue" active={reportWeek[4]} />
+        <DayWorkout day="Vie" active={reportWeek[5]} />
+        <DayWorkout day="Sab" active={reportWeek[6]} />
+        <DayWorkout day="Dom" active={reportWeek[0]} />
+      </div>
+      <div className="bg-gray-light h-[3px] w-[95%] md:w-[88%] absolute top-10 md:top-[4.5rem] rounded-full"></div>
+    </div>
   );
 };

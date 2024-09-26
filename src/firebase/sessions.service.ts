@@ -82,3 +82,14 @@ export const passSessions = async () => {
   })
 
 }
+
+export const getSessions = async () => {
+  const q = query(collection(db, "users", USER_ID, "sessions"))
+  const querySnapshot = await getDocs(q);
+  const sessions: any = [];
+  querySnapshot.forEach((doc) => {
+    sessions.push({ ...doc.data(), id: doc.id })
+  });
+  return sessions;
+
+}

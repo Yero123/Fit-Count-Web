@@ -1,5 +1,6 @@
 import { useAllRutinesContext } from "@/contexts/AllRutinesContext";
 import { createRutine } from "@/firebase/rutine.service";
+import useMainStore from "@/store/MainStore";
 import { Button, Dialog, DialogPanel } from "@tremor/react";
 import React, { useState } from "react";
 
@@ -7,8 +8,7 @@ const CreateRutineButton = () => {
   const [isOpen, setisOpen] = useState(false);
   const [name, setname] = useState("");
   const [loading, setloading] = useState(false);
-  const {  reset } = useAllRutinesContext();
-
+  const rutineQuery = useMainStore((state) => state?.rutineQuery);
   return (
     <>
       <Button
@@ -37,7 +37,7 @@ const CreateRutineButton = () => {
             createRutine(name).then(() => {
                 setisOpen(false);
                 setname("");
-                reset();
+                rutineQuery?.refetch();
             })
           }}>
             Confirmar

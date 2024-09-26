@@ -35,7 +35,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Exercise, Rutine } from "@/models";
-import { getExercises } from "@/firebase/exercise.service";
+import { getExercises, getExercisesTable } from "@/firebase/exercise.service";
 import { useEffect, useState } from "react";
 import { getRutines } from "@/firebase/rutine.service";
 import { ModalCreateExercices } from "@/components/exercises/ModalCreateExercises";
@@ -88,7 +88,7 @@ const Page = () => {
   const [rutines, setrutines] = useState<Rutine[]>([]);
   useEffect(() => {
     const getExercisesData = async () => {
-      const exercises = await getExercises({
+      const exercises = await getExercisesTable({
         pagination: { page: 1, limit: 1000 },
         filters: { name: "" },
       });

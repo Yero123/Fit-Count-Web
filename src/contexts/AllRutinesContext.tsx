@@ -10,7 +10,6 @@ export const AllRutinesContext = createContext<any>(null);
 export default function AllRutinesProvider(props: any) {
   const [rutines, setrutines] = useState<Rutine[]>([]);
   const [loading, setloading] = useState(false);
-  const [reportWeek, setreportWeek] = useState([false, false, false, false, false, false, false]);
   const [re, setre] = useState(false);
   const [rutinesAll, setrutinesAll] = useState<Rutine[]>([]);
   const [lastsSessions, setlastsSessions] = useState<Session[]>([]);
@@ -28,6 +27,8 @@ export default function AllRutinesProvider(props: any) {
 
   }, [])
   // const [weeks, setweeks] = useState(second)
+  const [reportWeek, setreportWeek] = useState([false, false, false, false, false, false, false]);
+
   useEffect(() => {
     setloading(true)
     getRutinesWithExercices().then((rutines) => {
@@ -37,9 +38,6 @@ export default function AllRutinesProvider(props: any) {
     getDaysWorkedByWeek().then((e) => {
       setreportWeek(e)
     });
-
-
-
   }, [re])
   useEffect(() => {
     getRutinesExercisesSessions().then((rutines) => {

@@ -7,11 +7,12 @@ import { Button } from '@tremor/react'
 import ButtonTheme from '../ButtonTheme'
 import { useRouter } from 'next/router'
 import { useAllRutinesContext } from '@/contexts/AllRutinesContext'
+import useMainStore from '@/store/MainStore'
 const Layout = ({
   children
 }: any) => {
   const router = useRouter()
-  const { rutines } = useAllRutinesContext();
+  const rutines = useMainStore(state => state.rutines)
   const getTitle = () => {
     if (router.asPath === '/rutines') {
       return 'Rutinas'

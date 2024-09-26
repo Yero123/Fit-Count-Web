@@ -24,10 +24,12 @@ import {
   ModalFooter,
 } from "@nextui-org/react";
 import { deleteRutine } from "@/firebase/rutine.service";
+import useMainStore from "@/store/MainStore";
 
 const Sidebar = () => {
   const router = useRouter();
-  const { rutines, reset } = useAllRutinesContext();
+  const rutineQuery = useMainStore((state) => state?.rutineQuery);
+  const rutines = useMainStore((state) => state.rutines);
   const items = [
     {
       key: "edit",
@@ -59,10 +61,10 @@ const Sidebar = () => {
         <SidebarItem
           title="Dashboard"
           icon={<SaveIcon className="h-4 w-4 self-center dark:text-white" />}
-          active={true}
+          active={router.asPath === "/" || router.asPath.split("/")[1] === ""}
           href="/"
         />
-        {/* <SidebarItem title='Rutines'
+        <SidebarItem title='Rutines'
           icon={<ChartIcon className='h-4 w-4 self-center dark:text-white' />}
           active={router.asPath === '/rutines' || router.asPath.split('/')[1] === 'rutines'}
           href='/rutines'
@@ -71,7 +73,7 @@ const Sidebar = () => {
           icon={<CarpetIcon className='h-4 w-4 self-center dark:text-white' />}
           active={router.asPath === '/exercises' || router.asPath.split('/')[1] === 'exercises'}
           href='/exercises'
-        /> */}
+        />
       </div>
       <div className="w-full h-[0.1rem] mt-12 bg-slate-400 dark:bg-slate-600" />
       <Modal backdrop={"blur"} isOpen={isVisible} onClose={onClose}>
@@ -91,7 +93,7 @@ const Sidebar = () => {
               onPress={() => {
                 deleteRutine(currentIdRutine).then((e) => {
                   console.log(currentIdRutine)
-                  reset();
+                  rutineQuery?.refetch();
                 });
               }}
             >
@@ -101,8 +103,8 @@ const Sidebar = () => {
         </ModalContent>
       </Modal>
       <div className="mt-12 flex flex-col gap-6 min-w-[200px]">
-        {rutines.map((rutine: any, index: any) => {
-          const hasExerecises = rutine.exercises.some(
+        {rutines?.map((rutine: any, index: any) => {
+          const hasExerecises = rutine?.exercises?.some(
             (exercise: any) => router.asPath === `/exercises/${exercise.id}`
           );
           const isActive =
@@ -152,7 +154,7 @@ const Sidebar = () => {
                 </div>
               </summary>
               <div className="flex flex-col gap-3 pt-3">
-                {rutine.exercises.map((exercise: any, index: any) => {
+                {rutine?.exercises?.map((exercise: any, index: any) => {
                   const isActive =
                     router.asPath === `/exercises/${exercise.id}`;
                     let style = " ";

@@ -12,13 +12,11 @@ import React from "react";
 
 const ExercisePage = () => {
   return (
-    <Layout>
-      <div className=" flex flex-col ">
-        <DoExerciseProvider>
-          <Contenedor />
-        </DoExerciseProvider>
-      </div>
-    </Layout>
+    <div className=" flex flex-col ">
+      <DoExerciseProvider>
+        <Contenedor />
+      </DoExerciseProvider>
+    </div>
   );
 };
 
