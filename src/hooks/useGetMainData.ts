@@ -51,10 +51,16 @@ export default function useGetMainData() {
         rutines.data?.map((rutine) => {
           return {
             ...rutine,
-            exercises:
+            exercises: (
               exercises?.data?.filter(
                 (exercise) => exercise.idRutine === rutine.id
-              ) ?? [],
+              ) ?? []
+            ).map((exercise) => {
+              return {
+                ...exercise,
+                rutine,
+              };
+            }),
           };
         }) as Rutine[]
       );
@@ -115,15 +121,24 @@ export default function useGetMainData() {
             muscles?.data?.filter((muscle) =>
               exercise?.idMuscles?.includes(muscle.id)
             ) ?? [],
+          rutine: rutines.data?.find(
+            (rutine) => rutine.id === exercise.idRutine
+          ),
         };
       });
       const newRutines = rutines.data?.map((rutine) => {
         return {
           ...rutine,
-          exercises:
-            newExercises?.filter(
+          exercises: (
+            exercises?.data?.filter(
               (exercise) => exercise.idRutine === rutine.id
-            ) ?? [],
+            ) ?? []
+          ).map((exercise) => {
+            return {
+              ...exercise,
+              rutine,
+            };
+          }),
         };
       });
       updateRutines(newRutines as Rutine[]);

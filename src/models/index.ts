@@ -11,10 +11,12 @@ export interface Exercise {
   id: string;
   name: string;
   active: boolean;
-  idRutines: string[];
+  // idRutines: string[];
   idRutine: string;
   idMuscles: string[];
 
+  rutine: Rutine;
+  rutines: Rutine[];
   sessions: Session[];
   muscles: Muscle[];
 }

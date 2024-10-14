@@ -115,9 +115,7 @@ const Sidebar = () => {
                 <div
                   className={`rounded-full h-7 w-7  flex items-center justify-center `}
                 >
-                  {
                     <ArrowDownIcon className="h-4 w-4 self-center dark:text-white" />
-                  }
                 </div>
                 <div className="flex justify-between flex-1">
                   <Link href={`/rutines/${rutine.id}`}>
