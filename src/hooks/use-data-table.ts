@@ -139,7 +139,7 @@ export function useDataTable<TData>({
   }, [filterFields])
 
   // Create query string
-  const { createQueryString } = useQueryString(searchParams)
+  const { createQueryString } = useQueryString(searchParams as any)
 
   // Initial column filters
   const initialColumnFilters: ColumnFiltersState = React.useMemo(() => {
@@ -274,7 +274,8 @@ export function useDataTable<TData>({
     }
 
     // Remove deleted values
-    for (const key of searchParams.keys()) {
+    // @ts-ignore
+    for (const key of searchParams?.keys()) {
       if (
         (searchableColumns.find((column) => column.value === key) &&
           !debouncedSearchableColumnFilters.find(

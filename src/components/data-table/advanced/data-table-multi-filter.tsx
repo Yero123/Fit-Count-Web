@@ -81,7 +81,7 @@ export function DataTableMultiFilter<TData>({
               options={options}
               setSelectedOptions={setSelectedOptions}
               operator={operator}
-              setOperator={setOperator}
+              setOperator={setOperator as any}
             />
           ))}
         </div>

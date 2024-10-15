@@ -1,4 +1,4 @@
-import { type SQL } from "drizzle-orm"
+// import { type SQL } from "drizzle-orm"
 
 export interface SearchParams {
   [key: string]: string | string[] | undefined
@@ -28,7 +28,7 @@ export interface DataTableFilterOption<TData> {
   isMulti?: boolean
 }
 
-export type DrizzleWhere<T> =
-  | SQL<unknown>
-  | ((aliases: T) => SQL<T> | undefined)
-  | undefined
+// export type DrizzleWhere<T> =
+//   | SQL<unknown>
+//   | ((aliases: T) => SQL<T> | undefined)
+//   | undefined

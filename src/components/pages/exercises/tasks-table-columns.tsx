@@ -27,8 +27,8 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 
 // import { updateTask } from "../_lib/actions"
 // import { getPriorityIcon, getStatusIcon } from "../_lib/utils"
-import { DeleteTasksDialog } from "./delete-tasks-dialog";
-import { UpdateTaskSheet } from "./update-task-sheet";
+// import { DeleteTasksDialog } from "./delete-tasks-dialog";
+// import { UpdateTaskSheet } from "./update-task-sheet";
 import { Exercise, Rutine } from "@/models";
 
 export function getColumns(): ColumnDef<Exercise>[] {
