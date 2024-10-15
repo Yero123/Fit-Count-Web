@@ -14,14 +14,14 @@ export default function Home() {
       <div className="hidden md:block pt-5">
         <Title loading={false}>Rutines</Title>
       </div>
-      <div className="xl:flex-nowrap flex gap-8 flex-wrap pt-5 md:pt-0">
+      {/* <div className="xl:flex-nowrap flex gap-8 flex-wrap pt-5 md:pt-0">
         <RutineTable />
         <WeekActivity />
       </div>
       <div className=" flex-wrap flex lg:flex-nowrap gap-8 min-h-[40vh]">
         <BarChartExample3 />
         <ExerciceTable />
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -16,7 +16,7 @@ export const useRutineStatus = () => {
     }[] => {
       const currentDate = getCurrentMondayDate();
 
-      return rutines.map((rutine) => {
+      return rutines?.map((rutine) => {
         let status = "No iniciado";
         let lastModification = "No encontrado";
         let progress = 0;
