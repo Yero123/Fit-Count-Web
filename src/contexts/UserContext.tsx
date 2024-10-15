@@ -1,7 +1,8 @@
 // context/UserContext.js
 import { auth } from "@/firebase/config";
 import { User } from "firebase/auth";
-import { createContext, useContext, useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { createContext, useContext, useState, useEffect, use } from "react";
 
 // Crear el contexto
 const UserContext = createContext<{
@@ -19,7 +20,7 @@ export const useUser = () => useContext(UserContext);
 export const UserProvider = ({ children }: any) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const router = useRouter();
   useEffect(() => {
     // Listener para el estado de autenticación de Firebase
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -30,6 +31,24 @@ export const UserProvider = ({ children }: any) => {
     // Limpiar el listener cuando el componente se desmonte
     return () => unsubscribe();
   }, []);
+  console.log(user);
+  useEffect(() => {
+    if (user && router.pathname === "/login") {
+      router.push("/dashboard");
+    }
+    if (
+      !user &&
+      router.pathname !== "/login" &&
+      router.pathname !== "/signup" &&
+      router.pathname !== "/"
+    ) {
+      router.push("/login");
+    }
+
+    if(user && localStorage.getItem("userId") !== user.uid) {
+      localStorage.setItem("userId", user.uid);
+    }
+  }, [router, user]);
 
   return (
     <UserContext.Provider value={{ user, loading }}>

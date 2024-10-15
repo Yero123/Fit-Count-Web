@@ -11,7 +11,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "./config";
-const USER_ID = "pg04fNCoICxrRKjcfZuH";
+import { USER_ID } from "@/utils/constants";
 export const getExercise = async (id: string) => {
   const docRef = doc(db, "users", USER_ID, "exercises", id);
   const docSnap = await getDoc(docRef);
@@ -123,6 +123,8 @@ export const getExercises = async () => {
   const q = query(collRef, orderBy("name"));
   const querySnapshot = await getDocs(q);
   let exercises: any[] = [];
+  console.log("fetch exercices");
+
   querySnapshot.forEach((doc) => {
     exercises.push({
       id: doc.id,

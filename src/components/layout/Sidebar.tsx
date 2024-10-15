@@ -62,7 +62,7 @@ const Sidebar = () => {
           title="Dashboard"
           icon={<SaveIcon className="h-4 w-4 self-center dark:text-white" />}
           active={router.asPath === "/" || router.asPath.split("/")[1] === ""}
-          href="/"
+          href="/dashboard"
         />
         <SidebarItem title='Rutines'
           icon={<ChartIcon className='h-4 w-4 self-center dark:text-white' />}

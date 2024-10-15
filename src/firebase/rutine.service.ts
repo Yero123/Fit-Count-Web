@@ -12,7 +12,7 @@ import {
 import { db } from "./config";
 import { getLastSessionsOnWeek } from "./sessions.service";
 import { getSessionsFromExercise } from "./exercise.service";
-const USER_ID = "pg04fNCoICxrRKjcfZuH";
+import { USER_ID } from "@/utils/constants";
 export const getRutinesWithExercices = async () => {
   const collRef = collection(db, "users", USER_ID, "rutines");
   let rutines: any[] = [];
@@ -114,6 +114,8 @@ export const getRutines = async () => {
   const collRef = collection(db, "users", USER_ID, "rutines");
   let rutines: any[] = [];
   const querySnapshot = await getDocs(collRef);
+  console.log("fetch rutines");
+
   querySnapshot.forEach((doc) => {
     rutines.push({
       id: doc.id,

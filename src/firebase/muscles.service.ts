@@ -2,12 +2,14 @@ import { collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc, dele
 import { db } from "./config";
 import { getLastSessionsOnWeek } from "./sessions.service";
 import { getSessionsFromExercise } from "./exercise.service";
-const USER_ID = 'pg04fNCoICxrRKjcfZuH';
+import { USER_ID } from "@/utils/constants";
 
 
 export const getMuscles = async () => {
     const collRef = collection(db, "users", USER_ID, "muscles")
     let muscles: any[] = [];
+  console.log("fetch muscles");
+
     const querySnapshot = await getDocs(collRef);
     querySnapshot.forEach((doc:any) => {
         muscles.push({

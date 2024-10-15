@@ -7,21 +7,16 @@ import {
   RutineTable,
   WeekActivity,
 } from "@/components/pages/Dashboard";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div>
-      <div className="hidden md:block pt-5">
-        <Title loading={false}>Rutines</Title>
-      </div>
-      {/* <div className="xl:flex-nowrap flex gap-8 flex-wrap pt-5 md:pt-0">
-        <RutineTable />
-        <WeekActivity />
-      </div>
-      <div className=" flex-wrap flex lg:flex-nowrap gap-8 min-h-[40vh]">
-        <BarChartExample3 />
-        <ExerciceTable />
-      </div> */}
+    <div className="flex items-center justify-center h-screen flex-col gap-4">
+      <h1>Landing Fitcount</h1>
+      <Link href="/login">
+        <Button>Log in</Button>
+      </Link>
     </div>
   );
 }

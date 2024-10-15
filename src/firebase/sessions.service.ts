@@ -2,7 +2,8 @@ import { collection, query, where, getDocs, doc, getDoc, addDoc, updateDoc, dele
 import { db } from "./config";
 import { getExercise } from "./exercise.service";
 import { getCurrentMondayDate } from "@/utils/functions";
-const USER_ID = 'pg04fNCoICxrRKjcfZuH';
+import { USER_ID } from "@/utils/constants";
+
 
 export const addSession = async (idExercise: string, session: any) => {
   const collRef = collection(db, "users", USER_ID, "sessions")
@@ -87,6 +88,7 @@ export const getSessions = async () => {
   const q = query(collection(db, "users", USER_ID, "sessions"))
   const querySnapshot = await getDocs(q);
   const sessions: any = [];
+  console.log("fetch sessions");
   querySnapshot.forEach((doc) => {
     sessions.push({ ...doc.data(), id: doc.id })
   });

@@ -18,7 +18,7 @@ export default function useGetMainData() {
   );
   const updateMuscleQuery = useMainStore((state) => state.updateMuscleQuery);
   const updateSessionQuery = useMainStore((state) => state.updateSessionQuery);
-  const rutines = useQuery<Rutine[]>({
+  let rutines = useQuery<Rutine[]>({
     queryKey: ["rutines"],
     queryFn: getRutines,
   });
@@ -39,14 +39,12 @@ export default function useGetMainData() {
     if (rutines.data) {
       updateRutines(rutines.data);
       updateRutineQuery(rutines);
-      console.log("fetching rutines");
     }
   }, [rutines, rutines.data, updateRutineQuery, updateRutines]);
   useEffect(() => {
     if (exercises.data) {
       updateExercices(exercises.data);
       updateExerciseQuery(exercises);
-      console.log(exercises.data, rutines.data);
       updateRutines(
         rutines.data?.map((rutine) => {
           return {
@@ -64,8 +62,6 @@ export default function useGetMainData() {
           };
         }) as Rutine[]
       );
-      console.log("fetching exercises");
-      console.log(rutines.data);
     }
   }, [
     exercises,
@@ -79,14 +75,12 @@ export default function useGetMainData() {
     if (muscles.data) {
       updateMuscles(muscles.data);
       updateMuscleQuery(muscles);
-      console.log("fetching muscles");
     }
   }, [muscles, muscles.data, updateMuscleQuery, updateMuscles]);
   useEffect(() => {
     if (sessions.data) {
       updateSession(sessions.data);
       updateSessionQuery(sessions);
-      console.log("fetching sessions");
     }
   }, [sessions, sessions.data, updateSession, updateSessionQuery]);
   useEffect(() => {

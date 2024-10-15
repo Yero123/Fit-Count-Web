@@ -32,8 +32,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
 const AppWrapper = ({ children }: any) => {
   const router = useRouter();
-
-  if (router.pathname === "/login") {
+  const pathsWithnoLayout = ["/login", "/signup", "/forgot-password", "/"];
+  useGetMainData();
+  if (pathsWithnoLayout.includes(router.pathname)) {
     return <>{children}</>;
   }
 
@@ -41,6 +42,11 @@ const AppWrapper = ({ children }: any) => {
 };
 
 const AppWrapper2 = ({ children }: any) => {
-
-  return <Layout>{children} </Layout>;
+  return (
+    <>
+      <Layout>
+      {children}
+      </Layout>
+    </>
+  );
 };
